@@ -1,0 +1,361 @@
+﻿@model IEnumerable<HotelVM>
+@{
+    ViewData["Title"] = "Hotels";
+}
+@inject ISettingService _settingService
+@{
+    var datas = (await _settingService.GetSettings()).ToDictionary(x => x.Key, x => x.Value);
+}
+@section css {
+    <link rel="stylesheet" href="~/assets/css/Hotels/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/nouislider@15.7.1/dist/nouislider.min.css" rel="stylesheet" />
+}
+<main>
+    <section id="nav"
+             style="background-image: url('assets/images/home/banner-search-form-min.png'); background-size: cover;">
+        <div class="navbar">
+            <div class="cus-container">
+                <div class="row align-items-center line">
+                    <div class="col-md-2 left">
+                        <div class="menuIcon d-none">
+                            <i class="fa-solid fa-bars"></i>
+                        </div>
+                        <div class="logo">
+                            <a asp-controller="Home" asp-action="Index">
+                                <picture>
+                                    <source media="(max-width: 990px)" srcset="~/assets/images/home/blackLogo.svg">
+                                    <img class="logo" src="@datas["logo"]">
+                                </picture>
+                            </a>
+                        </div>
+
+                    </div>
+                    <div class="col-md-7 midd">
+                        <ul>
+                            <li>
+                                <a asp-controller="Home" asp-action="Index">Home</a>
+                            </li>
+                            <li>
+                                <a asp-controller="Hotel" asp-action="Index">Hotels</a>
+                            </li>
+                            <li>
+                                <a asp-controller="About" asp-action="Index">About</a>
+                            </li>
+                            <li>
+                                <a asp-controller="Blog" asp-action="Index">Blog</a>
+                            </li>
+                            <li>
+                                <a asp-controller="Contact" asp-action="Index">Contact</a>
+                            </li>
+                            <li>
+                                <a asp-controller="FAQ" asp-action="Index">FAQ</a>
+                            </li>
+                            @if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
+                            {
+                                <li>
+                                    <a asp-area="Admin" asp-controller="Dashboard" asp-action="Index">Admin</a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+
+                    <div class="col-md-3 right">
+                        <div class="currency">
+                            <span id="currency">EUR</span>
+                            <i class="fa-solid fa-angle-down curicon"></i>
+                            <i class="fa-solid fa-angle-up curicon_ d-none"></i>
+                        </div>
+                        <div class="basket">
+                            <div class="circle">
+                                <i class="fa-regular fa-heart like-iconn"></i>
+                            </div>
+                        </div>
+                        <div class="profile">
+                            @if (!User.Identity.IsAuthenticated)
+                            {
+                                <a asp-controller="Account" asp-action="Login">
+                                    <div class="circle">
+                                        <i class="fa-regular fa-user" style="color:black"></i>
+                                    </div>
+                                </a>
+                            }
+                            else
+                            {
+                                <a href="" style="pointer-events: none;">
+                                    <div class="circle">
+                                        <i class="fa-regular fa-user" style="color:black"></i>
+                                    </div>
+                                </a>
+                            }
+                        </div>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <div class="login-info">
+                                <span style="color:white">@User.Identity.Name</span>
+                                <form method="post" asp-controller="Account" asp-action="LogOut">
+                                    <button type="submit" class=" btn btn-primary ">Log out</button>
+                                </form>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="controller-name">
+            <span class="home">Home</span>
+            <span class="icon"><i class="fa-solid fa-circle"></i></span>
+            <span class="name">Hotels</span>
+        </div>
+        <div class="currency-tab d-none">
+            <ul>
+                <li class="li">
+                    USD
+                </li>
+                <li class="li">
+                    EUR
+                </li>
+                <li class="li">
+                    AZN
+                </li>
+            </ul>
+        </div>
+        <div class="basket-tab d-none">
+
+            <div class="contain">
+                <p class="title">Your Cart</p>
+                <hr>
+                <ul>
+                    <li>
+                        <span>Your cart is empty</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </section>
+
+    <div class="move-up">
+        <i class="fa-solid fa-angle-up"></i>
+    </div>
+
+    <div class="filters">
+        <div class="cus-container">
+            <div class="price-filter">
+                <span class="text">Filter price</span>
+                <span class="icon down1"><i class="fa-solid fa-angle-down"></i></span>
+                <span class="icon up1 d-none"><i class="fa-solid fa-angle-up"></i></span>
+            </div>
+
+            <div class="star-filter">
+                <span class="text">Hotel stars</span>
+                <span class="icon down22"><i class="fa-solid fa-angle-down"></i></span>
+                <span class="icon up22 d-none"><i class="fa-solid fa-angle-up"></i></span>
+            </div>
+        </div>
+
+    </div>
+
+    <form method="get" asp-controller="Hotel" asp-action="Filter">
+        <div class="price-tab d-none">
+            <div class="cus-container">
+                <label class="pricetext">Price range:</label>
+                <div id="price-slider" style="margin: 20px 0;"></div>
+                <div class="contain">
+                    <div class="min">
+                        <p>Min price:</p>
+                        <span id="minDisplay">50</span>
+                    </div>
+                    <div class="max">
+                        <p>Max price:</p>
+                        <span id="maxDisplay">300</span>
+                    </div>
+                </div>
+                <input type="hidden" name="MinValue" id="minPriceInput" />
+                <input type="hidden" name="MaxValue" id="maxPriceInput" />
+
+            </div>
+
+
+        </div>
+        <div class="star-tab d-none">
+            <div class="cus-container">
+                <div class="mb-3">
+                    <label class="form-label">Hotel stars:</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="StarCount" value="1" id="star1">
+                        <label class="form-check-label" for="star1">
+                            <div class="stars">
+                                <span><i class="fa-solid fa-star"></i></span>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="StarCount" value="2" id="star2">
+                        <label class="form-check-label" for="star2">
+                            <div class="stars">
+                                <span><i class="fa-solid fa-star"></i></span>
+                                <span><i class="fa-solid fa-star"></i></span>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="StarCount" value="3" id="star3">
+                        <label class="form-check-label" for="star3">
+                            <div class="stars">
+                                <span><i class="fa-solid fa-star"></i></span>
+                                <span><i class="fa-solid fa-star"></i></span>
+                                <span><i class="fa-solid fa-star"></i></span>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="StarCount" value="4" id="star4">
+                        <label class="form-check-label" for="star4">
+                            <div class="stars">
+                                <span><i class="fa-solid fa-star"></i></span>
+                                <span><i class="fa-solid fa-star"></i></span>
+                                <span><i class="fa-solid fa-star"></i></span>
+                                <span><i class="fa-solid fa-star"></i></span>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="StarCount" value="5" id="star5">
+                        <label class="form-check-label" for="star5">
+                            <div class="stars">
+                                <span><i class="fa-solid fa-star"></i></span>
+                                <span><i class="fa-solid fa-star"></i></span>
+                                <span><i class="fa-solid fa-star"></i></span>
+                                <span><i class="fa-solid fa-star"></i></span>
+                                <span><i class="fa-solid fa-star"></i></span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <button class="btn btn-primary cus-but">Filter</button>
+        <script src="https://cdn.jsdelivr.net/npm/nouislider@15.7.1/dist/nouislider.min.js"></script>
+    </form>
+
+
+    <section id="hotels">
+        <div class="cus-container">
+            <div class="filter">
+                <span class="count">@Model.Count() hotels found</span>
+                <div class="sort">
+                    <span>Sort</span>
+                    <span class="icon down2"><i class="fa-solid fa-angle-down"></i></span>
+                    <span class="icon up2 d-none"><i class="fa-solid fa-angle-up"></i></span>
+                </div>
+            </div>
+            <div class="sort-tab d-none">
+                <div class="contain">
+                    <div class="price">
+                        <p class="p">Price</p>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                   id="flexRadioDefault1" checked>
+                            <label class="form-check-label" for="flexRadioDefault1">
+                                Low to High
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                   id="flexRadioDefault2">
+                            <label class="form-check-label" for="flexRadioDefault2">
+                                High to Low
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 left">
+
+                    <div class="hotels">
+                        <div class="row forHotels">
+
+                            @{
+                                foreach(var hotel in Model)
+                                {
+                                    <div class="col-lg-6 col-md-6 item" data-price="@hotel.MinPrice">
+                                        <a asp-controller="Hotel" asp-action="Detail" asp-route-id="@hotel.Id">
+                                            <div class="image">
+                                                <img src="~/assets/images/hotels/@hotel.MainImage">
+                                            </div>
+
+                                            <div class="contain">
+                                                <div class="stars">
+                                                    
+                                                    @{
+                                                        for(int i = 1; i <= hotel.StarCount; i++)
+                                                        {
+                                                            <span><i class="fa-solid fa-star"></i></span>
+                                                        }
+                                                    }
+                                                </div>
+                                                <div class="location">
+                                                    <p>@hotel.Name</p>
+                                                    <span>@hotel.Address</span>
+                                                </div>
+                                                <div class="rating">
+                                                    <div class="rate">
+                                                        <span>@((hotel.Rate % 1 == 0) ? hotel.Rate.ToString("0") : hotel.Rate.ToString("0.0"))</span>
+                                                        <span>/</span>
+                                                        <span>5</span>
+                                                    </div>
+                                                    <div class="count">
+                                                        <span>(@hotel.CommentCount Reviews)</span>
+                                                    </div>
+                                                </div>
+                                                <div class="price">
+                                                    <span class="text">From:</span>
+                                                    <span class="value">$ @hotel.MinPrice</span>
+                                                    <span class="text">/night</span>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                }
+                            }
+
+
+                        </div>
+                        <nav aria-label="Custom page navigation">
+                            <ul class="pagination justify-content-center" id="custom-pagination">
+                                <li class="page-item">
+                                    <a class="page-link" href="#" id="prev-page" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>
+                                <li class="page-item disabled"><span class="page-link">...</span></li>
+                                <li class="page-item active" pageCount = "">
+                                    <span class="page-link" id="current-page">1</span>
+                                </li>
+                                <li class="page-item disabled"><span class="page-link">...</span></li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#" id="next-page" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+                <div class="col-md-6 right">
+                    <div class="map">
+                        <div id="map-canvas"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+</main>
+@section js {
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCGEyKiDCVY0ACQfUFlNGsvlW9QJF-JCmc&map_ids=b559224a8cff171a769dc502&libraries=marker&callback=initMap" async defer></script>
+    <script src="~/assets/js/Hotels/script.js"></script>
+}

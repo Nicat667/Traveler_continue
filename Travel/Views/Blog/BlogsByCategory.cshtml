@@ -1,0 +1,272 @@
+﻿@model BlogAndCategoryVM
+@{
+    ViewData["Title"] = "Blogs";
+}
+@inject ISettingService _settingService
+@{
+    var datas = (await _settingService.GetSettings()).ToDictionary(x => x.Key, x => x.Value);
+}
+@section css {
+    <link rel="stylesheet" href="~/assets/css/Blog/style.css">
+}
+<main>
+    <section id="nav"
+             style="background-image: url('@Url.Content("~/assets/images/home/banner-search-form-min.png")'); background-size: cover;">
+        <div class="navbar">
+            <div class="cus-container">
+                <div class="row align-items-center line">
+                    <div class="col-md-2 left">
+                        <div class="menuIcon d-none">
+                            <i class="fa-solid fa-bars"></i>
+                        </div>
+                        <div class="logo">
+                            <a asp-controller="Home" asp-action="Index">
+                                <picture>
+                                    <source media="(max-width: 990px)" srcset="~/assets/images/home/blackLogo.svg">
+                                    <img class="logo" src="@datas["logo"]">
+                                </picture>
+                            </a>
+                        </div>
+
+                    </div>
+                    <div class="col-md-7 midd">
+                        <ul>
+                            <li>
+                                <a asp-controller="Home" asp-action="Index">Home</a>
+                            </li>
+                            <li>
+                                <a asp-controller="Hotel" asp-action="Index">Hotels</a>
+                            </li>
+                            <li>
+                                <a asp-controller="About" asp-action="Index">About</a>
+                            </li>
+                            <li>
+                                <a asp-controller="Blog" asp-action="Index">Blog</a>
+                            </li>
+                            <li>
+                                <a asp-controller="Contact" asp-action="Index">Contact</a>
+                            </li>
+                            <li>
+                                <a asp-controller="FAQ" asp-action="Index">FAQ</a>
+                            </li>
+                            @if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
+                            {
+                                <li>
+                                    <a asp-area="Admin" asp-controller="Dashboard" asp-action="Index">Admin</a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+
+                    <div class="col-md-3 right">
+                        <div class="currency">
+                            <span id="currency">EUR</span>
+                            <i class="fa-solid fa-angle-down curicon"></i>
+                            <i class="fa-solid fa-angle-up curicon_ d-none"></i>
+                        </div>
+                        <div class="basket">
+                            <div class="circle">
+                                <i class="fa-regular fa-heart like-iconn"></i>
+                            </div>
+                        </div>
+                        <div class="profile">
+                            @if (!User.Identity.IsAuthenticated)
+                            {
+                                <a asp-controller="Account" asp-action="Login">
+                                    <div class="circle">
+                                        <i class="fa-regular fa-user" style="color:black"></i>
+                                    </div>
+                                </a>
+                            }
+                            else
+                            {
+                                <a href="" style="pointer-events: none;">
+                                    <div class="circle">
+                                        <i class="fa-regular fa-user" style="color:black"></i>
+                                    </div>
+                                </a>
+                            }
+                        </div>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <div class="login-info">
+                                <span style="color:white">@User.Identity.Name</span>
+                                <form method="post" asp-controller="Account" asp-action="LogOut">
+                                    <button type="submit" class=" btn btn-primary ">Log out</button>
+                                </form>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="controller-name">
+            <span class="home">Home</span>
+            <span class="icon"><i class="fa-solid fa-circle"></i></span>
+            <span class="name">Blog</span>
+        </div>
+        <div class="currency-tab d-none">
+            <ul>
+                <li class="li">
+                    USD
+                </li>
+                <li class="li">
+                    EUR
+                </li>
+                <li class="li">
+                    AZN
+                </li>
+            </ul>
+        </div>
+        <div class="basket-tab d-none">
+
+            <div class="contain">
+                <p class="title">Your Cart</p>
+                <hr>
+                <ul>
+                    <li>
+                        <span>Your cart is empty</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <div class="move-up">
+        <i class="fa-solid fa-angle-up"></i>
+    </div>
+
+    <section id="content">
+        <div class="cus-container">
+            <div class="row">
+                <div class="col-lg-8 col-md-12 left">
+                    <div class="blogs">
+
+                        @{
+                            foreach (var blog in Model.Blogs)
+                            {
+                                <a asp-controller="Blog" asp-action="BlogDetail" asp-route-id="@blog.Id">
+                                    <div class="blog">
+                                        <div class="img"
+                                             style="background-image: url('@Url.Content($"~/assets/images/home/{blog.Image}")'); background-size: cover;">
+                                        </div>
+                                        <div class="contain">
+                                            <div class="x">
+                                                <i class="fa-solid fa-circle"></i>
+                                                <span>@blog.CategoryName</span>
+                                            </div>
+                                            <div class="head">
+                                                <p>@blog.Title</p>
+                                            </div>
+                                            <div class="content">
+                                                <p>
+                                                    @blog.Content
+                                                </p>
+                                            </div>
+                                            <div class="author">
+                                                <div class="image"
+                                                     style="background-image: url('@Url.Content($"~/assets/images/home/{blog.AuthorImage}")'); background-size: cover;">
+                                                </div>
+                                                <div class="name">
+                                                    <p>@blog.AuthorName</p>
+                                                </div>
+                                                <div class="date">
+                                                    <p>@blog.CreateDate</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            }
+                        }
+
+                    </div>
+                    <nav aria-label="Custom page navigation">
+                        <ul class="pagination justify-content-center" id="custom-pagination">
+                            <li class="page-item">
+                                <a class="page-link" href="#" id="prev-page" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                            <li class="page-item disabled"><span class="page-link">...</span></li>
+                            <li class="page-item active"><span class="page-link" id="current-page">1</span></li>
+                            <li class="page-item disabled"><span class="page-link">...</span></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#" id="next-page" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+
+                </div>
+                <div class="col-lg-4 col-md-12 right">
+                    <div class="stable">
+                        <div class="categories">
+                            <div class="contain">
+                                <div class="head">
+                                    <p>Categories</p>
+                                </div>
+                                <div class="names">
+                                    @{
+                                        foreach (var item in @Model.BlogCategories)
+                                        {
+                                            <a asp-controller="Blog" asp-action="BlogsByCategory" asp-route-id="@item.Id">
+                                                <div class="item">
+                                                    <div class="x">
+                                                        <i class="fa-solid fa-circle"></i>
+                                                        <span>@item.Name</span>
+                                                    </div>
+                                                    <span class="count">@item.Count</span>
+                                                </div>
+                                            </a>
+                                        }
+                                    }
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tags">
+                            <div class="contain">
+                                <div class="title">
+                                    <p>Tags</p>
+                                </div>
+                                <div class="tag-row">
+                                    <div class="tag">
+                                        <span>Content</span>
+                                    </div>
+                                    <div class="tag">
+                                        <span>Offers</span>
+                                    </div>
+                                    <div class="tag">
+                                        <span>Promotions</span>
+                                    </div>
+                                    <div class="tag">
+                                        <span>SEO</span>
+                                    </div>
+                                    <div class="tag">
+                                        <span>Social Media</span>
+                                    </div>
+                                    <div class="tag">
+                                        <span>Tools</span>
+                                    </div>
+                                    <div class="tag">
+                                        <span>Traffic</span>
+                                    </div>
+                                    <div class="tag">
+                                        <span>Website</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+@section js {
+    <script src="~/assets/js/blog/script.js"></script>
+}

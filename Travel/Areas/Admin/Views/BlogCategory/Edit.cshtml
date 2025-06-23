@@ -1,0 +1,15 @@
+﻿@model BlogCategoryEditVM
+
+<div class="pc-container">
+    <div class="pc-content">
+        <form method="post" asp-action="Edit">
+            <div class="form-group">
+                <label for="exampleInputEmail1">Question</label>
+                <input class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Category Name" asp-for="Name">
+                <span class="text-danger" asp-validation-for="Name"></span>
+            </div>
+           
+            <button type="submit" class="btn btn-primary mt-2">Submit</button>
+        </form>
+    </div>
+</div>

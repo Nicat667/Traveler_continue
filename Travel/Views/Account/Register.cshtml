@@ -1,0 +1,224 @@
+﻿@model RegisterVM
+@{
+    ViewData["Title"] = "Register";
+}
+@inject ISettingService _settingService
+@{
+    var datas = (await _settingService.GetSettings()).ToDictionary(x => x.Key, x => x.Value);
+}
+@section css {
+    <link rel="stylesheet" href="~/assets/css/Account/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/nouislider@15.7.1/dist/nouislider.min.css" rel="stylesheet" />
+}
+<main>
+    
+    <section id="nav" style="background-image: url('@Url.Content("~/assets/images/home/banner-search-form-min.png")'); background-size: cover;">
+        <div class="navbar">
+            <div class="cus-container">
+                <div class="row align-items-center line">
+                    <div class="col-md-2 left">
+                        <div class="menuIcon d-none">
+                            <i class="fa-solid fa-bars"></i>
+                        </div>
+                        <div class="logo">
+                            <a asp-controller="Home" asp-action="Index">
+                                <picture>
+                                    <source media="(max-width: 990px)" srcset="~/assets/images/home/blackLogo.svg">
+                                    <img class="logo" src="@datas["logo"]"
+                                         alt="Traveler Logo">
+                                </picture>
+                            </a>
+                        </div>
+
+                    </div>
+                    <div class="col-md-7 midd">
+                        <ul>
+                            <li>
+                                <a asp-controller="Home" asp-action="Index">Home</a>
+                            </li>
+                            <li>
+                                <a asp-controller="Hotel" asp-action="Index">Hotels</a>
+                            </li>
+                            <li>
+                                <a asp-controller="About" asp-action="Index">About</a>
+                            </li>
+                            <li>
+                                <a asp-controller="Blog" asp-action="Index">Blog</a>
+                            </li>
+                            <li>
+                                <a asp-controller="Contact" asp-action="Index">Contact</a>
+                            </li>
+                            <li>
+                                <a asp-controller="FAQ" asp-action="Index">FAQ</a>
+                            </li>
+                            @if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
+                            {
+                                <li>
+                                    <a asp-area="Admin" asp-controller="Dashboard" asp-action="Index">Admin</a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+
+                    <div class="col-md-3 right">
+                        <div class="currency">
+                            <span id="currency">EUR</span>
+                            <i class="fa-solid fa-angle-down curicon"></i>
+                            <i class="fa-solid fa-angle-up curicon_ d-none"></i>
+                        </div>
+                        <div class="basket">
+                            <div class="circle">
+                                <i class="fa-regular fa-heart like-iconn"></i>
+                            </div>
+                        </div>
+                        <div class="profile">
+                            @if (!User.Identity.IsAuthenticated)
+                            {
+                                <a asp-controller="Account" asp-action="Login">
+                                    <div class="circle">
+                                        <i class="fa-regular fa-user" style="color:black"></i>
+                                    </div>
+                                </a>
+                            }
+                            else
+                            {
+                                <a href="" style="pointer-events: none;">
+                                    <div class="circle">
+                                        <i class="fa-regular fa-user" style="color:black"></i>
+                                    </div>
+                                </a>
+                            }
+                        </div>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <div class="login-info">
+                                <span style="color:white">@User.Identity.Name</span>
+                                <form method="post" asp-controller="Account" asp-action="LogOut">
+                                    <button type="submit" class=" btn btn-primary ">Log out</button>
+                                </form>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="controller-name">
+            <span class="home">Home</span>
+            <span class="icon"><i class="fa-solid fa-circle"></i></span>
+            <span class="name">Register</span>
+        </div>
+        <div class="currency-tab d-none">
+            <ul>
+                <li class="li">
+                    USD
+                </li>
+                <li class="li">
+                    EUR
+                </li>
+                <li class="li">
+                    AZN
+                </li>
+            </ul>
+        </div>
+        <div class="basket-tab d-none">
+
+            <div class="contain">
+                <p class="title">Your Cart</p>
+                <hr>
+                <ul>
+                    <li>
+                        <span>Your cart is empty</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="login">
+            <div class="uper">
+                <ul>
+                    <li>
+                        <a asp-controller="Account" asp-action="Login" style="text-decoration:none"><p class="">Log in</p></a>
+                    </li>
+                    <li>
+                        <p class="in active">Register</p>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="contain signup">
+                <p>Create an account</p>
+
+                <form method="post" asp-controller="Account" asp-action="Register" class="register">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <div class="form-group">
+                        <input class="form-control mt-4" id="exampleInputEmail1"
+                               aria-describedby="emailHelp" placeholder="Username" asp-for="@Model.UserName">
+     
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control mt-4" id="exampleInputEmail1"
+                               aria-describedby="emailHelp" placeholder="Full Name" asp-for="@Model.FullName">
+      
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control mt-4" id="exampleInputEmail1"
+                               aria-describedby="emailHelp" placeholder="Email" asp-for="@Model.Email">
+    
+                    </div>
+                    <div class="form-group">
+                        <input type="password" autocomplete="off" class="form-control pass-register mt-3" id="password"
+                               placeholder="Password" asp-for="@Model.Password">
+                  
+                    </div>
+                    <div class="form-group">
+                        <input type="password" autocomplete="off" class="form-control pass-register-conf mt-3"
+                               id="confirmPassword" placeholder="Confirm password" asp-for="@Model.ConfirmPAssword">
+             
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100 mt-3">Register</button>
+                    <div class="visible-register d-none">
+                        <i class="fa-solid fa-eye"></i>
+                    </div>
+                    <div class="invis-register">
+                        <i class="fa-solid fa-eye-slash"></i>
+                    </div>
+                    <div class="visible-register2 d-none">
+                        <i class="fa-solid fa-eye"></i>
+                    </div>
+                    <div class="invis-register2">
+                        <i class="fa-solid fa-eye-slash"></i>
+                    </div>
+                </form>
+            </div>
+            <script>
+                function adjustIconPositions() {
+                    const passwordInput = document.getElementById("password");
+                    const confirmInput = document.getElementById("confirmPassword");
+
+                    const passwordTop = passwordInput.offsetTop;
+                    const confirmTop = confirmInput.offsetTop;
+
+                    document.querySelector(".visible-register").style.top = (passwordTop + 10) + "px";
+                    document.querySelector(".invis-register").style.top = (passwordTop + 10) + "px";
+
+                    document.querySelector(".visible-register2").style.top = (confirmTop + 10) + "px";
+                    document.querySelector(".invis-register2").style.top = (confirmTop + 10) + "px";
+                }
+
+             
+                window.addEventListener("load", adjustIconPositions);
+                window.addEventListener("resize", adjustIconPositions);
+            </script>
+        </div>
+    </section>
+
+    <div class="move-up">
+        <i class="fa-solid fa-angle-up"></i>
+    </div>
+
+
+</main>
+@section js {
+    
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCGEyKiDCVY0ACQfUFlNGsvlW9QJF-JCmc&map_ids=b559224a8cff171a769dc502&libraries=marker&callback=initMap" async defer></script>
+    <script src="~/assets/js/account/script.js"></script>
+}

@@ -1,0 +1,417 @@
+﻿@model RoomDetailVM
+@inject ISettingService _settingService
+@{
+    var datas = (await _settingService.GetSettings()).ToDictionary(x => x.Key, x => x.Value);
+}
+@section css {
+    <link rel="stylesheet" href="~/assets/css/roomDetail/style.css">
+}
+<main>
+    <section id="nav"
+             style="background-image: url('@Url.Content("~/assets/images/home/banner-search-form-min.png")'); background-size: cover;">
+        <div class="navbar">
+            <div class="cus-container">
+                <div class="row align-items-center line">
+                    <div class="col-md-2 left">
+                        <div class="menuIcon d-none">
+                            <i class="fa-solid fa-bars"></i>
+                        </div>
+                        <div class="logo">
+                            <a asp-controller="Home" asp-action="Index">
+                                <picture>
+                                    <source media="(max-width: 990px)" srcset="~/assets/images/home/blackLogo.svg">
+                                    <img class="logo" src="@datas["logo"]">
+                                </picture>
+                            </a>
+                        </div>
+
+                    </div>
+                    <div class="col-md-7 midd">
+                        <ul>
+                            <li>
+                                <a asp-controller="Home" asp-action="Index">Home</a>
+                            </li>
+                            <li>
+                                <a asp-controller="Hotel" asp-action="Index">Hotel</a>
+                            </li>
+                            <li>
+                                <a asp-controller="About" asp-action="Index">About</a>
+                            </li>
+                            <li>
+                                <a asp-controller="Blog" asp-action="Index">Blog</a>
+                            </li>
+                            <li>
+                                <a asp-controller="Contact" asp-action="Index">Contact</a>
+                            </li>
+                            <li>
+                                <a asp-controller="FAQ" asp-action="Index">FAQ</a>
+                            </li>
+                            @if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
+                            {
+                                <li>
+                                    <a asp-area="Admin" asp-controller="Dashboard" asp-action="Index">Admin</a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+
+                    <div class="col-md-3 right">
+                        <div class="currency">
+                            <span id="currency">EUR</span>
+                            <i class="fa-solid fa-angle-down curicon"></i>
+                            <i class="fa-solid fa-angle-up curicon_ d-none"></i>
+                        </div>
+                        <div class="basket">
+                            <div class="circle">
+                                <i class="fa-regular fa-heart like-iconn"></i>
+                            </div>
+                        </div>
+                        <div class="profile">
+                            
+                            @if (!User.Identity.IsAuthenticated)
+                            {
+                                <a asp-controller="Account" asp-action="Login">
+                                    <div class="circle">
+                                        <i class="fa-regular fa-user" style="color:black"></i>
+                                    </div>
+                                </a>
+                            }
+                            else
+                            {
+                                <a href="" style="pointer-events: none;">
+                                    <div class="circle">
+                                        <i class="fa-regular fa-user" style="color:black"></i>
+                                    </div>
+                                </a>
+                            }
+                        </div>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <div class="login-info">
+                                <span style="color:white">@User.Identity.Name</span>
+                                <form method="post" asp-controller="Account" asp-action="LogOut">
+                                    <button type="submit" class=" btn btn-primary ">Log out</button>
+                                </form>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="controller-name">
+            <span class="home">Home</span>
+            <span class="icon"><i class="fa-solid fa-circle"></i></span>
+            <span class="name">Rooms</span>
+        </div>
+        <div class="currency-tab d-none">
+            <ul>
+                <li class="li">
+                    USD
+                </li>
+                <li class="li">
+                    EUR
+                </li>
+                <li class="li">
+                    AZN
+                </li>
+            </ul>
+        </div>
+        <div class="basket-tab d-none">
+
+            <div class="contain">
+                <p class="title">Your Cart</p>
+                <hr>
+                <ul>
+                    <li>
+                        <span>Your cart is empty</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </section>
+
+    <section id="Images">
+        <div class="cus-container">
+            <div class="row">
+                <div class="col-md-4 column">
+                    <div class="main">
+                        <img src="~/assets/images/rooms/@Model.Images.FirstOrDefault(m=>m.IsMain).Name">
+                    </div>
+                </div>
+                <div class="col-md-4 column">
+                    <div class="ordinary">
+                        
+                        @{
+                            foreach (var item in Model.Images.Where(m => !m.IsMain).Take(2))
+                            {
+                                <div class="item">
+                                    <img src="~/assets/images/rooms/@item.Name">
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+                <div class="col-md-4 column">
+                    <div class="ordinary">
+
+                        @{
+                            foreach (var item in Model.Images.Where(m => !m.IsMain).Skip(2).Take(2))
+                            {
+                                <div class="item">
+                                    <img src="~/assets/images/rooms/@item.Name">
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <section id="info" addressForMap="99 Union St, Seattle, WA 98101">
+        <div class="cus-container">
+            <div class="row">
+                <div class="col-lg-8 col-md-12 col-sm-12 left">
+                    <div class="head">
+                        <div class="l">
+
+                            <div class="icons">
+                                <div class="type">
+                                    <span>@Model.Type</span>
+                                </div>
+                                <div class="x">
+                                    <div class="icon">
+                                        <i class="fa-solid fa-maximize"></i>
+                                    </div>
+                                    <p>@Model.Area m&#178;</p>
+                                </div>
+                                <div class="x">
+                                    <div class="icon">
+                                        <i class="fa-solid fa-bed"></i>
+                                    </div>
+                                    <p>x @Model.BedCount</p>
+                                </div>
+                                <div class="x">
+                                    <div class="icon">
+                                        <i class="fa-solid fa-user"></i>
+                                    </div>
+                                    <p>x @Model.GuestCapacity</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="r">
+                            <div class="like" isliked="true" style="cursor: pointer;">
+                                <i class="fa-regular fa-heart like-icon"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="description">
+                        <div class="title">
+                            <p>About this room</p>
+                        </div>
+                        <div class="content">
+                            <p>
+                                @Model.Description
+                            </p>
+                        </div>
+                    </div>
+                    <div class="facilities">
+                        <div class="title">
+                            <p>Hotel Facilities</p>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 col-sm-6 item" istrue="true">
+                                <div class="icon">
+                                    <i class="fa-solid fa-fan"></i>
+                                </div>
+                                <div class="text">
+                                    <span>Air Contitioning</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-6 item" istrue="true">
+                                <div class="icon">
+                                    <i class="fa-solid fa-sink"></i>
+                                </div>
+                                <div class="text">
+                                    <span>Hot water</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-6 item" istrue="true">
+                                <div class="icon">
+                                    <i class="fa-solid fa-wifi"></i>
+                                </div>
+                                <div class="text">
+                                    <span>Free wifi</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-6 item" istrue="true">
+                                <div class="icon">
+                                    <i class="fa-solid fa-tv"></i>
+                                </div>
+                                <div class="text">
+                                    <span>Flat Tv</span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 col-sm-6 item" istrue="true">
+                                <div class="icon">
+                                    <i class="fa-solid fa-utensils"></i>
+                                </div>
+                                <div class="text">
+                                    <span>Hot meal</span>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <div class="rules">
+                        <div class="title">
+                            <p>Rules</p>
+                        </div>
+                        <div class="text">
+                            <div class="up">
+                                <span>Check in</span>
+                                <span>12:00 pm</span>
+                            </div>
+                            <div class="down">
+                                <span>Check out</span>
+                                <span>12:00 pm</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="rooms">
+                        <div class="title">
+                            <p>Availability</p>
+                        </div>
+                        
+                        @{
+                            foreach(var item in Model.Options)
+                            {
+                                <div class="item">
+                                    <div class="row g-0">
+                                        <div class="col-lg-4 col-md-12 col-sm-12 left">
+                                            <div class="img">
+                                                <img src="~/assets/images/rooms/@item.MainImage">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-12 col-sm-12 right">
+                                            <div class="desc">
+                                                <div class="l">
+                                                    <div class="header">
+                                                        <p>@item.Type</p>
+                                                    </div>
+                                                    <div class="icons">
+                                                        <div class="x">
+                                                            <div class="icon">
+                                                                <i class="fa-solid fa-maximize"></i>
+                                                            </div>
+                                                            <p>@item.Area m&#178;</p>
+                                                        </div>
+                                                        <div class="x">
+                                                            <div class="icon">
+                                                                <i class="fa-solid fa-bed"></i>
+                                                            </div>
+                                                            <p>x @item.BedCount</p>
+                                                        </div>
+                                                        <div class="x">
+                                                            <div class="icon">
+                                                                <i class="fa-solid fa-user"></i>
+                                                            </div>
+                                                            <p>x @item.GuestCapacity</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="r">
+                                                    <div class="price">
+                                                        <span class="number">$ @item.Price</span>
+                                                        <span class="day">/night</span>
+                                                    </div>
+                                                    <div class="detail">
+                                                        <a asp-controller="Room" asp-action="Detail" asp-route-id="@item.Id">Room Detail</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </div>
+
+                </div>
+                <div class="col-lg-4 col-md-12 col-sm-12 right">
+                    <div class="book" roomPrice="@Model.Price" style="padding-bottom: 20px;">
+                        <div class="price">
+                            <p>$ @Model.Price / night</p>
+                        </div>
+                        <form method="post" asp-controller="Room" asp-action="Book">
+                            @if (TempData["BookingError"] != null)
+                            {
+                                <div class="alert alert-danger">
+                                    @TempData["BookingError"]
+                                </div>
+                            }
+                            <div class="row g-3 align-items-end">
+                                <div class="col-md-6">
+                                    <label for="startDate" class="form-label">Check in</label>
+                                    <input type="date" class="form-control inp" id="startDate" name="StartDate" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="endDate" class="form-label">Check out</label>
+                                    <input type="date" class="form-control inp" id="endDate" name="EndDate" required>
+                                </div>
+                            </div>
+                            <div class="cus-container2">
+                                <div class="rooms">
+                                    <div class="number-input2">
+                                        <span>Rooms</span>
+                                        <button type="button" class="decrement2">−</button>
+                                        <input type="number" min="1" max="100" step="1" value="1" name="RoomCount" />
+                                        <button type="button" class="increment2">+</button>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            <div class="total">
+                                <span>Total:</span>
+                                <span class="sum">$ 0.00</span>
+                            </div>
+                            <input type="hidden" name="RoomId" value="@Model.Id" />
+                            <input type="hidden" name="HotelId" value="@Model.HotelId" />
+                            <button type="submit" class="btn btn-primary mt-3 w-100 but">Book</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <div class="move-up">
+        <i class="fa-solid fa-angle-up"></i>
+    </div>
+
+</main>
+@section js {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    @if (TempData["BookingSuccess"] != null)
+    {
+        <script>
+              Swal.fire({
+              title: "Success!",
+              icon: "success",
+              draggable: true
+            });
+        </script>
+    }
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById("startDate").setAttribute("min", today);
+            document.getElementById("endDate").setAttribute("min", today);
+        });
+    </script>
+    <script src="~/assets/js/roomDetail/script.js"></script>
+}

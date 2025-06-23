@@ -1,0 +1,463 @@
+﻿@model HotelDetailVM
+@{
+    ViewData["Title"] = "Hotel Detail";
+}
+@inject ISettingService _settingService
+@{
+    var datas = (await _settingService.GetSettings()).ToDictionary(x => x.Key, x => x.Value);
+}
+@section css {
+    <link rel="stylesheet" href="~/assets/css/HotelDetail/style.css">
+}
+<main>
+    <section id="nav"
+             style="background-image: url('@Url.Content("~/assets/images/home/banner-search-form-min.png")'); background-size: cover;">
+        <div class="navbar">
+            <div class="cus-container">
+                <div class="row align-items-center line">
+                    <div class="col-md-2 left">
+                        <div class="menuIcon d-none">
+                            <i class="fa-solid fa-bars"></i>
+                        </div>
+                        <div class="logo">
+                            <a asp-controller="Home" asp-action="Index">
+                                <picture>
+                                    <source media="(max-width: 990px)" srcset="~/assets/images/home/blackLogo.svg">
+                                    <img class="logo" src="@datas["logo"]">
+                                </picture>
+                            </a>
+                        </div>
+
+                    </div>
+                    <div class="col-md-7 midd">
+                        <ul>
+                            <li>
+                                <a asp-controller="Home" asp-action="Index">Home</a>
+                            </li>
+                            <li>
+                                <a asp-controller="About" asp-action="Index">About</a>
+                            </li>
+                            <li>
+                                <a asp-controller="Blog" asp-action="Index">Blog</a>
+                            </li>
+                            <li>
+                                <a asp-controller="Contact" asp-action="Index">Contact</a>
+                            </li>
+                            <li>
+                                <a asp-controller="FAQ" asp-action="Index">FAQ</a>
+                            </li>
+                            @if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
+                            {
+                                <li>
+                                    <a asp-area="Admin" asp-controller="Dashboard" asp-action="Index">Admin</a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+
+                    <div class="col-md-3 right">
+                        <div class="currency">
+                            <span id="currency">EUR</span>
+                            <i class="fa-solid fa-angle-down curicon"></i>
+                            <i class="fa-solid fa-angle-up curicon_ d-none"></i>
+                        </div>
+                        <div class="basket">
+                            <div class="circle">
+                                <i class="fa-regular fa-heart like-iconn"></i>
+                            </div>
+                        </div>
+                        <div class="profile">
+                            @if (!User.Identity.IsAuthenticated)
+                            {
+                                <a asp-controller="Account" asp-action="Login">
+                                    <div class="circle">
+                                        <i class="fa-regular fa-user" style="color:black"></i>
+                                    </div>
+                                </a>
+                            }
+                            else
+                            {
+                                <a href="" style="pointer-events: none;">
+                                    <div class="circle">
+                                        <i class="fa-regular fa-user" style="color:black"></i>
+                                    </div>
+                                </a>
+                            }
+                        </div>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <div class="login-info">
+                                <span style="color:white">@User.Identity.Name</span>
+                                <form method="post" asp-controller="Account" asp-action="LogOut">
+                                    <button type="submit" class=" btn btn-primary ">Log out</button>
+                                </form>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="controller-name">
+            <span class="home">Home</span>
+            <span class="icon"><i class="fa-solid fa-circle"></i></span>
+            <span class="name">Contact</span>
+        </div>
+        <div class="currency-tab d-none">
+            <ul>
+                <li class="li">
+                    USD
+                </li>
+                <li class="li">
+                    EUR
+                </li>
+                <li class="li">
+                    AZN
+                </li>
+            </ul>
+        </div>
+        <div class="basket-tab d-none">
+
+            <div class="contain">
+                <p class="title">Your Cart</p>
+                <hr>
+                <ul>
+                    <li>
+                        <span>Your cart is empty</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="Images">
+        <div class="cus-container">
+            <div class="row">
+                <div class="col-md-4 column">
+                    <div class="main">
+                        <img src="~/assets/images/hotels/@Model.Images.FirstOrDefault(m=>m.IsMain).Name">
+                    </div>
+                </div>
+                <div class="col-md-4 column">
+                    <div class="ordinary">
+                        @{
+                            foreach(var img in Model.Images.Where(m => !m.IsMain).Take(2))
+                            {
+                                <div class="item">
+                                    <img src="~/assets/images/hotels/@img.Name">
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+                <div class="col-md-4 column">
+                    <div class="ordinary">
+                        @{
+                            foreach (var img in Model.Images.Where(m => !m.IsMain).Skip(2).Take(2))
+                            {
+                                <div class="item">
+                                    <img src="~/assets/images/hotels/@img.Name">
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <section id="info" addressForMap="@Model.Address">
+        <div class="cus-container">
+            <div class="row">
+                <div class="col-lg-8 col-md-12 col-sm-12 left">
+                    <div class="head">
+                        <div class="l">
+                            <div class="stars">
+
+                                @{
+                                    for(int i = 1; i <=Model.StarCount; i++)
+                                    {
+                                        <span><i class="fa-solid fa-star"></i></span>
+                                    }
+                                }
+                            </div>
+                            <div class="rating">
+                                <div class="rate">
+                                    <span>@((Model.Rate % 1 == 0) ? Model.Rate.ToString("0") : Model.Rate.ToString("0.0"))</span>
+                                    <span>/</span>
+                                    <span>5</span>
+                                </div>
+                                <div class="count">
+                                    <span>(@Model.Comments.Count() Reviews)</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="r">
+                            <div class="like" isliked="true">
+                                <i class="fa-regular fa-heart like-icon"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="description">
+                        <div class="title">
+                            <p>About this hotel</p>
+                        </div>
+                        <div class="content">
+                            <p>
+                                @Model.Description
+                            </p>
+                        </div>
+                    </div>
+                    <div class="facilities">
+                        <div class="title">
+                            <p>Hotel Facilities</p>
+                        </div>
+                        <div class="row">
+                            @if (Model.AirConditioning)
+                            {
+                                <div class="col-md-4 col-sm-6 item">
+                                    <div class="icon">
+                                        <i class="fa-solid fa-fan"></i>
+                                    </div>
+                                    <div class="text">
+                                        <span>Air Conditioning</span>
+                                    </div>
+                                </div>
+                            }
+
+                            @if (Model.AirportTransport)
+                            {
+                                <div class="col-md-4 col-sm-6 item">
+                                    <div class="icon">
+                                        <i class="fa-solid fa-car-side"></i>
+                                    </div>
+                                    <div class="text">
+                                        <span>Airport Transport</span>
+                                    </div>
+                                </div>
+                            }
+
+                            @if (Model.FitnessCenter)
+                            {
+                                <div class="col-md-4 col-sm-6 item">
+                                    <div class="icon">
+                                        <i class="fa-solid fa-dumbbell"></i>
+                                    </div>
+                                    <div class="text">
+                                        <span>Fitness Center</span>
+                                    </div>
+                                </div>
+                            }
+
+                            @if (Model.Parking)
+                            {
+                                <div class="col-md-4 col-sm-6 item">
+                                    <div class="icon">
+                                        <i class="fa-solid fa-square-parking"></i>
+                                    </div>
+                                    <div class="text">
+                                        <span>Parking</span>
+                                    </div>
+                                </div>
+                            }
+
+                            @if (Model.Restaurant)
+                            {
+                                <div class="col-md-4 col-sm-6 item">
+                                    <div class="icon">
+                                        <i class="fa-solid fa-utensils"></i>
+                                    </div>
+                                    <div class="text">
+                                        <span>Restaurant</span>
+                                    </div>
+                                </div>
+                            }
+
+                            @if (Model.SpaSauna)
+                            {
+                                <div class="col-md-4 col-sm-6 item">
+                                    <div class="icon">
+                                        <i class="fa-solid fa-spa"></i>
+                                    </div>
+                                    <div class="text">
+                                        <span>Spa & Sauna</span>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    <div class="rules">
+                        <div class="title">
+                            <p>Rules</p>
+                        </div>
+                        <div class="text">
+                            <div class="up">
+                                <span>Check in</span>
+                                <span>12:00 pm</span>
+                            </div>
+                            <div class="down">
+                                <span>Check out</span>
+                                <span>12:00 pm</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="rooms">
+                        <div class="title">
+                            <p>Availability</p>
+                        </div>
+                        @{
+                            foreach(var room in Model.Rooms)
+                            {
+                                <div class="item">
+                                    <div class="row g-0">
+                                        <div class="col-lg-4 col-md-12 col-sm-12 left">
+                                            <div class="img">
+                                                <img src="~/assets/images/rooms/@room.MainImage">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-12 col-sm-12 right">
+                                            <div class="desc">
+                                                <div class="l">
+                                                    <div class="header">
+                                                        <p>@room.Type</p>
+                                                    </div>
+                                                    <div class="icons">
+                                                        <div class="x">
+                                                            <div class="icon">
+                                                                <i class="fa-solid fa-maximize"></i>
+                                                            </div>
+                                                            <p>@room.Area m&#178;</p>
+                                                        </div>
+                                                        <div class="x">
+                                                            <div class="icon">
+                                                                <i class="fa-solid fa-bed"></i>
+                                                            </div>
+                                                            <p>x @room.BedCount</p>
+                                                        </div>
+                                                        <div class="x">
+                                                            <div class="icon">
+                                                                <i class="fa-solid fa-user"></i>
+                                                            </div>
+                                                            <p>x @room.GuestCapacity</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="r">
+                                                    <div class="price">
+                                                        <span class="number">$@room.Price</span>
+                                                        <span class="day">/night</span>
+                                                    </div>
+                                                    <div class="detail">
+                                                        <a asp-controller="Room" asp-action="Detail" asp-route-id="@room.Id">Room Detail</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+
+                    </div>
+                    <div class="comments">
+                        <div class="comment-list">
+                            @{
+                                foreach (var comment in Model.Comments.Take(3))
+                                {
+                                    <div class="comment">
+                                        <div class="author">
+                                            <p class="name">@comment.AuthorName</p>
+                                            <p class="date">@comment.Created</p>
+                                        </div>
+                                        <div class="rating">
+                                            <div class="rate">
+                                                <span>@((comment.Rate % 1 == 0) ? comment.Rate.ToString("0") : comment.Rate.ToString("0.0"))</span>
+                                                <span>/</span>
+                                                <span>5</span>
+                                            </div>
+                                            <p class="content">
+                                                @comment.Message
+                                            </p>
+                                        </div>
+                                    </div>
+                                }
+
+                            }
+
+                        </div>
+                        @if (Model.Comments.Count() > 3)
+                        {
+                            <button class="btn btn-primary showMore" style=" display: inline-block; width: 130px; margin: 0 auto" hotelId="@Model.Id" totalcount="@Model.Comments.Count()">
+                                Show More
+                            </button>
+                        }
+                    </div>
+                    <div class="addComment">
+                        <div class="button-comment">
+                            <div class="button">
+                                <span>Add comment</span>
+                            </div>
+                            <div class="icon-up-comment">
+                                <i class="fa-solid fa-angle-up"></i>
+                            </div>
+                            <div class="icon-down-comment d-none">
+                                <i class="fa-solid fa-angle-down"></i>
+                            </div>
+                        </div>
+                        <div class="comment-form d-none">
+                            <form asp-controller="Comment" asp-action="AddComment" method="post">
+                                <div class="form-row-equal mb-3" >
+                                    <div class="form-group">
+                                        <label for="name">Name</label>
+                                        <input type="text" name="AuthorName" class="form-control" id="name"
+                                               placeholder="Enter name">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="rating">Rating</label>
+                                        <select name="Rate" class="form-control" id="rating">
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group mb-3">
+                                    <label for="content">Content</label>
+                                    <textarea name="Message" class="form-control" id="content" rows="4"
+                                              placeholder="Write your review..."></textarea>
+                                </div>
+                                <input type="hidden" class="hotelId" name="HotelId" value="@Model.Id"/>
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-12 col-sm-12 right">
+                    <div class="mainImage">
+                        <div class="img">
+                            <img src="~/assets/images/hotels/@Model.Images.FirstOrDefault(m=>m.IsMain).Name">
+                        </div>
+                    </div>
+                    <div class="map">
+                        <div id="map-canvas"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="move-up">
+        <i class="fa-solid fa-angle-up"></i>
+    </div>
+
+</main>
+@section js {
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCGEyKiDCVY0ACQfUFlNGsvlW9QJF-JCmc&callback=initMap"
+            async defer></script>
+    <script src="~/assets/js/hotelDetail/script.js"></script>
+}

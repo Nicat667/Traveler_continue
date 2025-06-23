@@ -1,0 +1,56 @@
+﻿@model SettingEditVM
+
+@inject IBlobStorage _blobService
+@{
+    string existImageUrl = Model.ExistFile;
+    if (!Model.ExistFile.StartsWith("http"))
+    {
+        existImageUrl = await _blobService.GetBlobUrlAsync(Model.ExistFile);
+    }
+}
+
+
+<div class="pc-container">
+    <div class="pc-content">
+        <form method="post" asp-action="Edit" enctype="multipart/form-data">
+            @if(Model.Key == "logo")
+            {
+                <div class="mt-3">
+                    <p>Current image:</p>
+                    <img class="mt-2" src="@existImageUrl" style="width: 300px; height:200px" />
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Question</label>
+                    <input class="form-control mt-2" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Logo" asp-for="File">
+                    <span class="text-danger" asp-validation-for="Value"></span>
+                </div>
+
+            }
+            else if(Model.Key == "video")
+            {
+                <div class="mt-3" style="width: 300px; height:200px">
+                    <p>Current Video:</p>
+                    <div class="video">
+                                <video id="myVideo" src="@Model.Value" controls
+                                       preload="metadata"></video>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Question</label>
+                    <input class="form-control mt-2" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Video" accept="video/*" asp-for="File">
+                    <span class="text-danger" asp-validation-for="Value"></span>
+                </div>
+            }
+            else
+            {
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Question</label>
+                    <input class="form-control mt-2" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Value"  asp-for="Value">
+                    <span class="text-danger" asp-validation-for="Value"></span>
+                </div>
+            }
+            
+            <button type="submit" class="btn btn-primary mt-2">Submit</button>
+        </form>
+    </div>
+</div>

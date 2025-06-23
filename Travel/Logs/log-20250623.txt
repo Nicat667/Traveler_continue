@@ -1,0 +1,48 @@
+[2025-06-23 00:12:15 INF] Visited Home Page at "2025-06-23T00:12:15.3454851+04:00"
+[2025-06-23 00:13:34 INF] Visited Home Page at "2025-06-23T00:13:34.0377038+04:00"
+[2025-06-23 00:18:48 INF] Visited Home Page at "2025-06-23T00:18:48.3791277+04:00"
+[2025-06-23 00:23:12 INF] Visited Home Page at "2025-06-23T00:23:12.4835639+04:00"
+[2025-06-23 02:58:37 ERR] An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: The model item passed into the ViewDataDictionary is of type 'Service.ViewModels.Setting.SettingVM', but this ViewDataDictionary instance requires a model item of type 'Service.ViewModels.Setting.SettingEditVM'.
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewDataDictionary.EnsureCompatible(Object value)
+   at lambda_method216(Closure, ViewDataDictionary)
+   at Microsoft.AspNetCore.Mvc.Razor.RazorPagePropertyActivator.Activate(Object page, ViewContext context)
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderPageCoreAsync(IRazorPage page, ViewContext context)
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderPageAsync(IRazorPage page, ViewContext context, Boolean invokeViewStarts)
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderAsync(ViewContext context)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewExecutor.ExecuteAsync(ViewContext viewContext, String contentType, Nullable`1 statusCode)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewExecutor.ExecuteAsync(ViewContext viewContext, String contentType, Nullable`1 statusCode)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewExecutor.ExecuteAsync(ActionContext actionContext, IView view, ViewDataDictionary viewData, ITempDataDictionary tempData, String contentType, Nullable`1 statusCode)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor.ExecuteAsync(ActionContext context, ViewResult result)
+   at Microsoft.AspNetCore.Mvc.ViewResult.ExecuteResultAsync(ActionContext context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResultFilterAsync>g__Awaited|30_0[TFilter,TFilterAsync](ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResultExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.ResultNext[TFilter,TFilterAsync](State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeResultFilters()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+[2025-06-23 03:04:02 INF] Visited Home Page at "2025-06-23T03:04:02.0375136+04:00"
+[2025-06-23 03:10:51 INF] Visited Home Page at "2025-06-23T03:10:51.8882417+04:00"
+[2025-06-23 03:17:55 INF] Visited Home Page at "2025-06-23T03:17:55.8775596+04:00"
+[2025-06-23 03:18:28 INF] Visited Home Page at "2025-06-23T03:18:28.1252215+04:00"
+[2025-06-23 03:19:11 INF] Visited Home Page at "2025-06-23T03:19:11.1147397+04:00"
+[2025-06-23 13:06:54 INF] Visited Home Page at "2025-06-23T13:06:54.4685338+04:00"
+[2025-06-23 13:08:08 INF] Visited Home Page at "2025-06-23T13:08:08.8796321+04:00"
+[2025-06-23 13:14:16 INF] Visited Home Page at "2025-06-23T13:14:16.9111443+04:00"
+[2025-06-23 13:24:16 INF] Visited Home Page at "2025-06-23T13:24:16.0064763+04:00"
+[2025-06-23 13:24:57 INF] Visited Home Page at "2025-06-23T13:24:57.3172080+04:00"
+[2025-06-23 13:25:23 INF] Visited Home Page at "2025-06-23T13:25:23.0987593+04:00"
+[2025-06-23 13:25:42 INF] Visited Home Page at "2025-06-23T13:25:42.3851778+04:00"
+[2025-06-23 13:26:01 INF] Visited Home Page at "2025-06-23T13:26:01.9267597+04:00"
+[2025-06-23 13:28:35 INF] Visited Home Page at "2025-06-23T13:28:35.1938298+04:00"
+[2025-06-23 13:28:55 INF] Visited Home Page at "2025-06-23T13:28:55.7714667+04:00"
+[2025-06-23 13:29:18 INF] Visited Home Page at "2025-06-23T13:29:18.6864385+04:00"
+[2025-06-23 13:30:03 INF] Visited Home Page at "2025-06-23T13:30:03.5028309+04:00"

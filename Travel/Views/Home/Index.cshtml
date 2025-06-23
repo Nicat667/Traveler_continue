@@ -1,0 +1,363 @@
+﻿@model HomeVM
+@{
+    ViewData["Title"] = "Home Page";
+}
+@inject ISettingService _settingService
+@{
+    var datas = (await _settingService.GetSettings()).ToDictionary(x => x.Key, x => x.Value);
+}
+@section css {
+    <link rel="stylesheet" href="~/assets/css/Home/style.css">
+}
+<main>
+    
+    <section id="nav" style="background-image: url('assets/images/home/bannermix-min.webp'); background-size: cover; height: 502px">
+        <div class="navbar">
+            <div class="cus-container">
+                <div class="row align-items-center line">
+                    <div class="col-md-2 left">
+                        <div class="menuIcon d-none">
+                            <i class="fa-solid fa-bars"></i>
+                        </div>
+                        <div class="logo">
+                            <a asp-controller="Home" asp-action="Index">
+                                <picture>
+                                    <source media="(max-width: 990px)" srcset="~/assets/images/home/blackLogo.svg">
+                                    <img class="logo" src="@datas["logo"]">
+                                </picture>
+                            </a>
+                        </div>
+
+                    </div>
+                    <div class="col-md-7 midd">
+                        <ul>
+                            <li>
+                                <a asp-controller="Home" asp-action="Index">Home</a>
+                            </li>
+                            <li>
+                                <a asp-controller="Hotel" asp-action="Index">Hotels</a>
+                            </li>
+                            <li>
+                                <a asp-controller="About" asp-action="Index">About</a>
+                            </li>
+                            <li>
+                                <a asp-controller="Blog" asp-action="Index">Blog</a>
+                            </li>
+                            <li>
+                                <a asp-controller="Contact" asp-action="Index">Contact</a>
+                            </li>
+                            <li>
+                                <a asp-controller="FAQ" asp-action="Index">FAQ</a>
+                            </li>
+                            @if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
+                            {
+                                <li>
+                                    <a asp-area="Admin" asp-controller="Dashboard" asp-action="Index">Admin</a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+
+                    <div class="col-md-3 right">
+                        <div class="currency">
+                            <span id="currency">EUR</span>
+                            <i class="fa-solid fa-angle-down curicon"></i>
+                            <i class="fa-solid fa-angle-up curicon_ d-none"></i>
+                        </div>
+                        <div class="basket">
+                            <div class="circle">
+                                <i class="fa-regular fa-heart like-iconn"></i>
+                            </div>
+                        </div>
+                        <div class="profile">
+                            @if (!User.Identity.IsAuthenticated)
+                            {
+                                <a asp-controller="Account" asp-action="Login">
+                                    <div class="circle">
+                                        <i class="fa-regular fa-user" style="color:black"></i>
+                                    </div>
+                                </a>
+                            }
+                            else
+                            {
+                                <a href="" style="pointer-events: none;">
+                                    <div class="circle">
+                                        <i class="fa-regular fa-user" style="color:black"></i>
+                                    </div>
+                                </a>
+                            }
+                        </div>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <div class="login-info">
+                                <span style="color:white">@User.Identity.Name</span>
+                                <form method="post" asp-controller="Account" asp-action="LogOut">
+                                    <button type="submit" class=" btn btn-primary ">Log out</button>
+                                </form>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="currency-tab d-none">
+            <ul>
+                <li class="li">
+                    USD
+                </li>
+                <li class="li">
+                    EUR
+                </li>
+                <li class="li">
+                    AZN
+                </li>
+            </ul>
+        </div>
+        <div class="basket-tab d-none">
+
+            <div class="contain">
+                <p class="title">Your Cart</p>
+                <hr>
+                <ul>
+                    <li>
+                        <span>Your cart is empty</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="custom-container">
+            <div class="headline">
+                <h1>Let the journey begin</h1>
+                <p>Get the best prices on 2,000,000+ properties, worldwide</p>
+            </div>
+            <div class="categories">
+                <span class="active">Hotels</span>
+                @* <span>Tours</span> *@
+            </div>
+        </div>
+    </section>
+
+
+    <div class="hotel-input">
+        <form method="get" asp-controller="Hotel" asp-action="search">
+            <div class="location">
+                <div class="a">
+                    <i class="fa-solid fa-location-dot"></i>
+                </div>
+                <div class="b">
+                    <label>
+                        Location</lable>
+                        <input type="text" list="options" name="CityName" placeholder="Where are you going?">
+                        <datalist id="options">
+                            @foreach (var city in Model.Cities)
+                            {
+                                <option value="@city.Name"></option>
+                            }
+                        </datalist>
+                </div>
+                <div class="line">
+                </div>
+            </div>
+            <div class="checkin-out">
+                <div class="calendar">
+                    <i class="fa-solid fa-calendar-days"></i>
+                </div>
+                <div class="start">
+                    <label>Check in</label>
+                    <input type="date" name="StartDate">
+                </div>
+                <div class="toright">
+                    <i class="fa-solid fa-arrow-right"></i>
+                </div>
+                <div class="end">
+                    <label>Check out</label>
+                    <input type="date" name="EndDate">
+                </div>
+                <div class="line">
+                </div>
+            </div>
+            <div class="guest">
+                <div class="profile">
+                    <i class="fa-regular fa-user"></i>
+                </div>
+                <div class="count">
+                    <p class="head">Guests</p>
+                    <p class="number"><span>1</span> guest, <span>1</span> room</p>
+                </div>
+            </div>
+
+            <div class="guest-inc-dec d-none">
+                <div class="cus-container">
+                    <div class="guests">
+                        <div class="number-input">
+                            <span>Guests</span>
+                            <button type="button" class="decrement">−</button>
+                            <input type="number" min="0" name="GuestCount" max="100" step="1" value="1" />
+                            <button type="button" class="increment">+</button>
+                        </div>
+
+                    </div>
+                    <div class="rooms">
+                        <div class="number-input2">
+                            <span>Rooms</span>
+                            <button type="button" class="decrement2">−</button>
+                            <input type="number" min="0" max="100" name="RoomCount" step="1" value="1" />
+                            <button type="button" class="increment2">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="button">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+        </form>
+    </div>
+
+
+    <div class="move-up">
+        <i class="fa-solid fa-angle-up"></i>
+    </div>
+
+    <section id="offers">
+        <div class="cus-container">
+            <div class="row justify-content-center align-items-center">
+                <div class="col-md-6 item">
+                    <div class="bg-img">
+                        <img src="~/assets/images/home/Offer1.webp">
+                    </div>
+                </div>
+                <div class="col-md-6 item">
+                    <div class="bg-img">
+                        <img src="~/assets/images/home/Offer2.webp">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="destinations">
+        <div class="cus-container">
+            <div class="title">
+                <p>Destinations</p>
+            </div>
+            <div class="row justify-content-center">
+                @{
+                    foreach(var city in Model.Cities)
+                    {
+                        <div class="col-lg-4 col-md-6 col-sm-12 mt-4 item">
+                            <a asp-controller="Hotel" asp-action="FilterByCity" asp-route-id="@city.Id">
+                                <div class="img"
+                                     style="background-image: url('@city.ImageUrl'); background-size: cover;">
+
+                                    <div class="info text-center">
+                                        <p>@city.Name</p>
+                                        <span class="left">@city.HotelCount Hotels</span>
+                                        @*<span class="dot"><i class="fa-solid fa-circle"></i></span>*@
+                                        @*<span>7 Tours</span> *@
+                                    </div>
+                                </div>
+
+                            </a>
+                        </div>
+                    }
+                }
+               
+            </div>
+        </div>
+    </section>
+
+    <section id="blogs">
+        <div class="cus-container">
+            <div class="title">
+                <p>Stories, tips and guides</p>
+            </div>
+
+            <div class="carousel-container">
+                <button class="carousel-btn left">&lt;</button>
+
+                <div class="carousel-track-wrapper">
+                    <div class="carousel-track">
+
+                        @{
+                            foreach(var blog in Model.Blogs)
+                            {
+                                if (blog.IsVisible)
+                                {
+                                    <a href="#" class="blog-link">
+                                        <div class="x">
+                                            <div class="img">
+                                                <img src="~/assets/images/home/@blog.Image" alt="Blog image" />
+                                            </div>
+                                            <div class="blog-container">
+                                                <div class="category">
+                                                    <i class="fa-solid fa-circle"></i>
+                                                    <span>@blog.CategoryName.</span>
+                                                </div>
+                                                <div class="head">
+                                                    <p>@blog.Title</p>
+                                                </div>
+                                                <div class="content">
+                                                    <p>
+                                                        @blog.Content
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                }
+                            }
+                        }
+
+                    </div>
+                </div>
+
+                <button class="carousel-btn right">&gt;</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="subscribtion">
+        <div class="cus-container">
+            <div class="row">
+                <div class="col-lg-6 col-md-6 left"
+                     style="background-image: url('assets/images/home/subscribtion_Image.webp'); background-size: cover;">
+                </div>
+                <div class="col-lg-6 col-md-6 right">
+                    <div class="contain">
+                        <div class="head">
+                            <h1>Get special offers, and more from Traveler</h2>
+                        </div>
+                        <div class="mid">
+                            <p>Subscribe to see secret deals prices drop the moment you sign up!</p>
+                        </div>
+                        <div class="end">
+                            <form>
+                                <input type="email" class="mt-4" id="exampleInputEmail1"
+                                       aria-describedby="emailHelp" placeholder="Email Address">
+                                <button type="submit" class="btn btn-primary submit">Subscribe</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+@section js {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="~/assets/js/home/script.js"></script>
+    @if (TempData["RegistrationSuccess"]?.ToString() == "true")
+    {
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Check your email!',
+                showConfirmButton: false,
+                timer: 3000
+            });
+        </script>
+    }
+}

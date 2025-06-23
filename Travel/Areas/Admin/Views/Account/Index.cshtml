@@ -1,0 +1,128 @@
+﻿@model IEnumerable<UserVM>
+
+<div class="pc-container">
+    <div class="pc-content">
+        
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th style="border-top: 1px solid rgb(170, 173, 179); border-bottom: 1px solid rgb(170, 173, 179); border-left: none; border-right: none;">#</th>
+                    <th style="border-top: 1px solid rgb(170, 173, 179); border-bottom: 1px solid rgb(170, 173, 179); border-left: none; border-right: none;">FullName</th>
+                    <th style="border-top: 1px solid rgb(170, 173, 179); border-bottom: 1px solid rgb(170, 173, 179); border-left: none; border-right: none;">UserName</th>
+                    <th style="border-top: 1px solid rgb(170, 173, 179); border-bottom: 1px solid rgb(170, 173, 179); border-left: none; border-right: none;">Email</th>
+                    <th style="border-top: 1px solid rgb(170, 173, 179); border-bottom: 1px solid rgb(170, 173, 179); border-left: none; border-right: none;">Roles</th>
+                    <th style="border-top: 1px solid rgb(170, 173, 179); border-bottom: 1px solid rgb(170, 173, 179); border-left: none; border-right: none;">Options</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    int count = 1;
+                }
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td style="border-top: 1px solid rgb(170, 173, 179); border-bottom: 1px solid rgb(170, 173, 179); border-left: none; border-right: none;">@count</td>
+                        <td style="border-top: 1px solid rgb(170, 173, 179); border-bottom: 1px solid rgb(170, 173, 179); border-left: none; border-right: none;">@item.Fullname</td>
+                        <td style="border-top: 1px solid rgb(170, 173, 179); border-bottom: 1px solid rgb(170, 173, 179); border-left: none; border-right: none;">@item.Username</td>
+                        <td style="border-top: 1px solid rgb(170, 173, 179); border-bottom: 1px solid rgb(170, 173, 179); border-left: none; border-right: none;">@item.Email</td>
+                        <td style="border-top: 1px solid rgb(170, 173, 179); border-bottom: 1px solid rgb(170, 173, 179); border-left: none; border-right: none;">@string.Join(", ", item.Roles)</td>
+                        <td style="border-top: 1px solid rgb(170, 173, 179); border-bottom: 1px solid rgb(170, 173, 179); border-left: none; border-right: none;">
+         
+                            <form method="post" >
+                                <button type="button" class="btn btn-primary mt-2" userId="@item.Id" data-bs-toggle="modal" data-bs-target="#exampleModalLong" onclick="setUserId(this)"> Add role </button>
+                            </form>
+                            
+                            @{
+                                int roloCount = item.Roles.Count();
+                                if(roloCount > 1)
+                                {
+                                    <form method="post">
+                                        <button type="button" class="btn btn-danger mt-2" userId="@item.Id" data-bs-toggle="modal" data-bs-target="#removeRoleModal" onclick="setUserIdForRemove(this)">Remove role</button>
+                                    </form>
+                                }
+                                else
+                                {
+                                    <form method="post">
+                                        <button type="button" class="btn btn-danger mt-2 disabled" userId="@item.Id" data-bs-toggle="modal" data-bs-target="#removeRoleModal" onclick="setUserIdForRemove(this)">Remove role</button>
+                                    </form>
+                                }
+                            }
+                            <form method="post">
+                                <button type="button" class="btn btn-danger deleteUser mt-2" userId="@item.Id">Delete user</button>
+                            </form>
+                            
+                        </td>
+                    </tr>
+                    count++;
+                }
+            </tbody>
+        </table>
+
+        <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="post" asp-controller="Account" asp-action="AddRole">
+                            <div class="mb-3">
+                                <label for="roleSelect" class="form-label">Choose Role</label>
+                                <input type="hidden" name="Id" id="modalUserId" />
+                                <select class="form-select" id="roleSelect" name="Role">
+                                    
+            
+                                </select>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-success">Assign</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="modal fade" id="removeRoleModal" tabindex="-1" aria-labelledby="removeRoleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <form method="post" asp-controller="Account" asp-action="RemoveRole">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="removeRoleModalLabel">Remove Role</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <input type="hidden" name="Id" id="removeModalUserId" />
+                            <div class="mb-3">
+                                <label for="removeRoleSelect" class="form-label">Select Role to Remove</label>
+                                <select class="form-select" id="removeRoleSelect" name="Role">
+                                    
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-danger">Remove</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <style>
+            body {
+                overflow-x: hidden;
+            }
+        </style>
+
+    </div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/admin/assets/js/Custom.js"></script>

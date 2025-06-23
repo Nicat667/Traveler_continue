@@ -1,0 +1,40 @@
+﻿@model IEnumerable<CommentAdminVM>
+@{
+    var datas = Model.GroupBy(m => m.Hotel);
+}
+<div class="pc-container">
+    <div class="pc-content">
+        @foreach (var hotelGroup in datas)
+        {
+            <h4 class="mt-4 mb-2 text-primary">Hotel: @hotelGroup.Key</h4>
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Author Name</th>
+                        <th>Message</th>
+                        <th>Rate</th>
+                        <th>Created</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        int count = 1;
+                    }
+                    @foreach (var item in hotelGroup)
+                    {
+                        <tr>
+                            <td>@count</td>
+                            <td style="white-space: normal; word-break: break-word; max-width: 300px;">@item.AuthorName</td>
+                            <td style="white-space: normal; word-break: break-word; max-width: 300px;">@item.Message</td>
+                            <td>@item.Rate.ToString()/5</td>
+                            <td>@item.Created.ToString("yyyy-MM-dd HH:mm")</td>
+                        </tr>
+                        count++;
+                    }
+                </tbody>
+            </table>
+        }
+
+    </div>
+</div>
