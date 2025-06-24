@@ -454,6 +454,9 @@
     align-items: center;
     flex: 1;
   }
+    .navbar .line .right .currency {
+        display: none !important;
+    }
 }
 .hotel-input {
   width: 1140px;

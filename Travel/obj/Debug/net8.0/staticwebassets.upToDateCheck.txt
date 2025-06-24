@@ -1,5 +1,3 @@
-wwwroot\admin\assets\css\plugins\animate.min.css
-wwwroot\admin\assets\css\plugins\simplebar.min.css
 wwwroot\admin\assets\css\style.css
 wwwroot\admin\assets\fonts\feather.css
 wwwroot\admin\assets\fonts\feather\feather.eot
@@ -546,3 +544,4 @@ wwwroot\assets\js\Hotels\script.js
 wwwroot\assets\js\roomDetail\script.js
 wwwroot\templates\Emailpage.html
 wwwroot\templates\EmailpageForReservation.html
+wwwroot\templates\PasswordReset.html

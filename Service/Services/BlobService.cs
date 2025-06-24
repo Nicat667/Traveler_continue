@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Service.Services.Interfaces;
+using System.IO;
 
 namespace Service.Services
 {
@@ -31,6 +32,11 @@ namespace Service.Services
 
         public async Task<string> GetBlobUrlAsync(string blobName)
         {
+            if (blobName.StartsWith("https://"))
+            {
+                return blobName;
+            }
+                
             return _container.GetBlobClient(blobName).Uri.ToString();
         }
 

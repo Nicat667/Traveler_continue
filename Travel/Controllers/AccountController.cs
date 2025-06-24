@@ -130,5 +130,79 @@ namespace Travel.Controllers
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
+
+        [HttpGet]
+        public IActionResult ForgetPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ForgetPassword(EmailVM model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            AppUser user = await _userManager.FindByEmailAsync(model.Email);
+            if (user == null)
+            {
+                ModelState.AddModelError("", "Email was not found!");
+                return View();
+            }
+            string token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            string url = Url.Action("ChangePassWord", "Account", new { userId = user.Id, token }, Request.Scheme, Request.Host.ToString());
+            string html = string.Empty;
+            using (StreamReader reader = new StreamReader("wwwroot/templates/PasswordReset.html"))
+            {
+                html = reader.ReadToEnd();
+            }
+            html = html.Replace("{link}", url);
+            _emailService.Send(model.Email, "Change password", html);
+            return RedirectToAction("Login", "Account");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ChangePassWord(string UserId, string token)
+        {
+            AppUser user = await _userManager.FindByIdAsync(UserId);
+            if(user == null)
+            {
+                return null;
+            }
+            ForgetVM forgetVM = new ForgetVM()
+            {
+                UserId = UserId,
+                Token = token
+            };
+            return View(forgetVM);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ChangePassWord(ForgetVM model)
+        {
+            if(model == null)
+            {
+                return BadRequest();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            AppUser user = await _userManager.FindByIdAsync(model.UserId);
+            var result = await _userManager.ResetPasswordAsync(user, model.Token, model.PassWord);
+
+            if (!result.Succeeded)
+            {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+            }
+
+            return RedirectToAction("Login", "Account");
+        }
     }
 }

@@ -448,6 +448,9 @@
     align-items: center;
     flex: 1;
   }
+    .navbar .line .right .currency {
+        display: none !important;
+    }
 }
 #sidebar {
   width: 320px;

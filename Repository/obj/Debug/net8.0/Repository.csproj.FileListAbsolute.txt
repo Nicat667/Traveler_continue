@@ -33,3 +33,4 @@ C:\Users\Nicat\Desktop\Traveler_cantinue\Travel\Repository\obj\Debug\net8.0\refi
 C:\Users\Nicat\Desktop\Traveler_cantinue\Travel\Repository\obj\Debug\net8.0\Repository.pdb
 C:\Users\Nicat\Desktop\Traveler_cantinue\Travel\Repository\obj\Debug\net8.0\Repository.genruntimeconfig.cache
 C:\Users\Nicat\Desktop\Traveler_cantinue\Travel\Repository\obj\Debug\net8.0\ref\Repository.dll
+C:\Users\Nicat\Desktop\Traveler_cantinue\Travel\Repository\obj\Debug\net8.0\Repository.sourcelink.json

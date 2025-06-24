@@ -1,5 +1,4 @@
-﻿@using Service.ViewModels.Setting
-
+﻿
 @model IEnumerable<SettingVM>
 <div class="pc-container">
     <div class="pc-content">
@@ -24,6 +23,10 @@
                         @if(item.Key == "logo")
                         {
                             <td style="border-top: 1px solid rgb(170, 173, 179); border-bottom: 1px solid rgb(170, 173, 179); border-left: none; border-right: none; white-space: normal; word-break: break-word; max-width: 300px;"><img src="@item.Value" style="width:250px; height:auto"/></td>
+                        }
+                        else if (item.Key == "blackLogo")
+                        {
+                            <td style="border-top: 1px solid rgb(170, 173, 179); border-bottom: 1px solid rgb(170, 173, 179); border-left: none; border-right: none; white-space: normal; word-break: break-word; max-width: 300px;"><img src="@item.Value" style="width:250px; height:auto" /></td>
                         }
                         else if(item.Key == "video")
                         {

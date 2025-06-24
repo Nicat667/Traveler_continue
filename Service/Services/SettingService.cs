@@ -28,7 +28,11 @@ namespace Service.Services
             {
                 existData.Value = await _blobStorage.ReplaceAsync(existData.Value, model.File);
             }
-            else if(existData.Key == "video")
+            else if(existData.Key == "blackLogo")
+            {
+                existData.Value = await _blobStorage.ReplaceAsync(existData.Value, model.File);
+            }
+            else if (existData.Key == "video")
             {
                 existData.Value = await _blobStorage.ReplaceAsync(existData.Value, model.File);
             }
@@ -50,6 +54,10 @@ namespace Service.Services
             {
                 data.Value = await _blobStorage.GetBlobUrlAsync(data.Value);
             }
+            else if (data.Key == "blackLogo")
+            {
+                data.Value = await _blobStorage.GetBlobUrlAsync(data.Value);
+            }
             return new SettingVM { Key =  data.Key, Value = data.Value, Id = data.Id };
         }
 
@@ -59,6 +67,10 @@ namespace Service.Services
             foreach(var setting in datas)
             {
                 if(setting.Key == "logo")
+                {
+                    setting.Value = await _blobStorage.GetBlobUrlAsync(setting.Value);
+                }
+                else if(setting.Key == "blackLogo")
                 {
                     setting.Value = await _blobStorage.GetBlobUrlAsync(setting.Value);
                 }

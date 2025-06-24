@@ -14,10 +14,11 @@
                 <tr>
                     <td style="border-top: 1px solid rgb(170, 173, 179); border-bottom: 1px solid rgb(170, 173, 179); border-left: none; border-right: none; white-space: normal; word-break: break-word; max-width: 300px;">@Model.Key </td>
                     <td style="border-top: 1px solid rgb(170, 173, 179); border-bottom: 1px solid rgb(170, 173, 179); border-left: none; border-right: none; white-space: normal; word-break: break-word;max-width: 300px;">
-                        @if (Model.Key == "logo")
+                    @if (Model.Key == "logo" || Model.Key == "blackLogo")
                         {
                         <img src="@Model.Value" style="width:250px; height:auto" />
                     }
+     
                     else if (Model.Key == "video")
                     {
                             <div class="video">

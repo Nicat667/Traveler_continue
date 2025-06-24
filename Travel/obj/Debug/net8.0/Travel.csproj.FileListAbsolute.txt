@@ -573,3 +573,4 @@ C:\Users\Nicat\Desktop\Traveler_cantinue\Travel\Travel\obj\Debug\net8.0\refint\T
 C:\Users\Nicat\Desktop\Traveler_cantinue\Travel\Travel\obj\Debug\net8.0\Travel.pdb
 C:\Users\Nicat\Desktop\Traveler_cantinue\Travel\Travel\obj\Debug\net8.0\Travel.genruntimeconfig.cache
 C:\Users\Nicat\Desktop\Traveler_cantinue\Travel\Travel\obj\Debug\net8.0\ref\Travel.dll
+C:\Users\Nicat\Desktop\Traveler_cantinue\Travel\Travel\obj\Debug\net8.0\Travel.sourcelink.json

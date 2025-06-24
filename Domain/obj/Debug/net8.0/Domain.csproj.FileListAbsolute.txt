@@ -23,3 +23,4 @@ C:\Users\Nicat\Desktop\Traveler_cantinue\Travel\Domain\obj\Debug\net8.0\Domain.d
 C:\Users\Nicat\Desktop\Traveler_cantinue\Travel\Domain\obj\Debug\net8.0\refint\Domain.dll
 C:\Users\Nicat\Desktop\Traveler_cantinue\Travel\Domain\obj\Debug\net8.0\Domain.pdb
 C:\Users\Nicat\Desktop\Traveler_cantinue\Travel\Domain\obj\Debug\net8.0\ref\Domain.dll
+C:\Users\Nicat\Desktop\Traveler_cantinue\Travel\Domain\obj\Debug\net8.0\Domain.sourcelink.json
