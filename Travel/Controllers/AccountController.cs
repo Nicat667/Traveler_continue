@@ -2,7 +2,9 @@
 using Domain.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Service.Services.Interfaces;
+using Service.ViewModels;
 using Service.ViewModels.Account;
 using System.Threading.Tasks;
 
@@ -13,11 +15,16 @@ namespace Travel.Controllers
         private readonly SignInManager<AppUser> _signInManager;
         private readonly UserManager<AppUser> _userManager;
         private readonly IEmailService _emailService;
-        public AccountController(SignInManager<AppUser> signInManager, UserManager<AppUser> userManager, IEmailService emailService)
+        private readonly IEmailTableService _emailTableService;
+        public AccountController(SignInManager<AppUser> signInManager, 
+                                 UserManager<AppUser> userManager, 
+                                 IEmailService emailService,
+                                 IEmailTableService emailTableService)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _emailService = emailService;
+            _emailTableService = emailTableService;
         }
 
         [HttpGet]
@@ -66,6 +73,8 @@ namespace Travel.Controllers
             html = html.Replace("{link}", url);
 
             _emailService.Send(user.Email, "Email confirmation", html);
+
+            await _emailTableService.Add(new Email { EmailAddress = user.Email});
 
             TempData["RegistrationSuccess"] = "true";
             return RedirectToAction("Index", "Home");
@@ -203,6 +212,14 @@ namespace Travel.Controllers
             }
 
             return RedirectToAction("Login", "Account");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddEmail(EmailSubscribeVM model)
+        {
+            await _emailTableService.Add(new Email { EmailAddress = model.Email });
+            TempData["SubscribtionSuccess"] = "true";
+            return RedirectToAction("Index", "Home");
         }
     }
 }

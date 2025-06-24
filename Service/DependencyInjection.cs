@@ -29,6 +29,7 @@ namespace Service
             services.AddScoped<IReservationService, ReservationService>();
             services.AddScoped<IBlobStorage, BlobService>();
             services.AddScoped<IBlogCategoryService, BlogCategoryService>();
+            services.AddScoped<IEmailTableService, EmailTableService>();
             return services;
         }
     }

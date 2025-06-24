@@ -1,0 +1,15 @@
+﻿@using Service.ViewModels
+
+@model SendEmailVM
+<div class="pc-container">
+    <div class="pc-content">
+        <form method="post" asp-area="Admin" asp-controller="SendEmail" asp-action="SendMessage">
+            <div class="form-group">
+                <label class="mt-4" for="exampleInputEmail1">Content</label>
+                <input type="text" class="form-control" style="margin-top:10px" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Message" asp-for="Context">
+            </div>
+
+            <button type="submit" class="btn btn-primary mt-3">Submit</button>
+        </form>
+    </div>
+</div>

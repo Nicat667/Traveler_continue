@@ -334,9 +334,9 @@
                             <p>Subscribe to see secret deals prices drop the moment you sign up!</p>
                         </div>
                         <div class="end">
-                            <form>
+                            <form method="post" asp-controller="Account" asp-action="AddEmail">
                                 <input type="email" class="mt-4" id="exampleInputEmail1"
-                                       aria-describedby="emailHelp" placeholder="Email Address">
+                                       aria-describedby="emailHelp" placeholder="Email Address" name="Email">
                                 <button type="submit" class="btn btn-primary submit">Subscribe</button>
                             </form>
                         </div>
@@ -357,6 +357,17 @@
                 title: 'Check your email!',
                 showConfirmButton: false,
                 timer: 3000
+            });
+        </script>
+    }
+
+    @if (TempData["SubscribtionSuccess"]?.ToString() == "true")
+    {
+        <script>
+            Swal.fire({
+                title: 'Email is succesfully added!',
+                icon: "success",
+                draggable: true
             });
         </script>
     }

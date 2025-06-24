@@ -1,2 +1,0 @@
-C:\Users\Nicat\Desktop\Traveler_cantinue\Travel\Travel\wwwroot\admin\assets\css\plugins\simplebar.min.css
-C:\Users\Nicat\Desktop\Traveler_cantinue\Travel\Travel\wwwroot\admin\assets\css\plugins\animate.min.css

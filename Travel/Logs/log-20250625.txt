@@ -1,0 +1,54 @@
+[2025-06-25 00:08:20 INF] Visited Home Page at "2025-06-25T00:08:20.6313488+04:00"
+[2025-06-25 00:08:37 ERR] An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: Unable to resolve service for type 'Service.Services.Interfaces.IEmailTableService' while attempting to activate 'Travel.Controllers.AccountController'.
+   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.ThrowHelperUnableToResolveService(Type type, Type requiredBy)
+   at lambda_method427(Closure, IServiceProvider, Object[])
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerFactoryProvider.<>c__DisplayClass6_0.<CreateControllerFactory>g__CreateController|0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeFilterPipelineAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+[2025-06-25 00:09:33 INF] Visited Home Page at "2025-06-25T00:09:33.1465848+04:00"
+[2025-06-25 00:10:14 INF] Visited Home Page at "2025-06-25T00:10:14.2703371+04:00"
+[2025-06-25 00:12:14 INF] Visited Home Page at "2025-06-25T00:12:14.5978935+04:00"
+[2025-06-25 00:34:04 INF] Visited Home Page at "2025-06-25T00:34:04.9535595+04:00"
+[2025-06-25 00:34:24 INF] Visited Home Page at "2025-06-25T00:34:24.0287065+04:00"
+[2025-06-25 00:35:32 INF] Visited Home Page at "2025-06-25T00:35:32.7155747+04:00"
+[2025-06-25 00:35:40 INF] Visited Home Page at "2025-06-25T00:35:40.1771433+04:00"
+[2025-06-25 00:37:00 INF] Visited Home Page at "2025-06-25T00:37:00.9106847+04:00"
+[2025-06-25 00:37:13 INF] Visited Home Page at "2025-06-25T00:37:13.7280046+04:00"
+[2025-06-25 00:41:37 INF] Visited Home Page at "2025-06-25T00:41:37.6289556+04:00"
+[2025-06-25 00:41:52 INF] Visited Home Page at "2025-06-25T00:41:52.6674531+04:00"
+[2025-06-25 00:41:53 INF] Visited Home Page at "2025-06-25T00:41:53.3547521+04:00"
+[2025-06-25 00:41:53 INF] Visited Home Page at "2025-06-25T00:41:53.5615373+04:00"
+[2025-06-25 00:41:53 INF] Visited Home Page at "2025-06-25T00:41:53.7318911+04:00"
+[2025-06-25 00:41:53 INF] Visited Home Page at "2025-06-25T00:41:53.9034415+04:00"
+[2025-06-25 00:41:54 INF] Visited Home Page at "2025-06-25T00:41:54.0748802+04:00"
+[2025-06-25 00:41:54 INF] Visited Home Page at "2025-06-25T00:41:54.2053749+04:00"
+[2025-06-25 00:41:54 INF] Visited Home Page at "2025-06-25T00:41:54.3590403+04:00"
+[2025-06-25 00:41:54 INF] Visited Home Page at "2025-06-25T00:41:54.5059960+04:00"
+[2025-06-25 00:41:54 INF] Visited Home Page at "2025-06-25T00:41:54.6539266+04:00"
+[2025-06-25 00:41:54 INF] Visited Home Page at "2025-06-25T00:41:54.8036062+04:00"
+[2025-06-25 00:42:00 INF] Visited Home Page at "2025-06-25T00:42:00.5434855+04:00"
+[2025-06-25 00:43:40 INF] Visited Home Page at "2025-06-25T00:43:40.1032526+04:00"
+[2025-06-25 00:43:45 INF] Visited Home Page at "2025-06-25T00:43:45.7726656+04:00"
+[2025-06-25 00:43:54 INF] Visited Home Page at "2025-06-25T00:43:54.5811882+04:00"
+[2025-06-25 01:40:07 INF] Visited Home Page at "2025-06-25T01:40:07.1964688+04:00"
+[2025-06-25 01:40:23 INF] Visited Home Page at "2025-06-25T01:40:23.3875707+04:00"
+[2025-06-25 01:44:09 INF] Visited Home Page at "2025-06-25T01:44:09.6951446+04:00"
+[2025-06-25 01:53:54 INF] Visited Home Page at "2025-06-25T01:53:54.7702394+04:00"
+[2025-06-25 01:57:35 INF] Visited Home Page at "2025-06-25T01:57:35.1933075+04:00"
+[2025-06-25 02:02:27 INF] Visited Home Page at "2025-06-25T02:02:27.1204471+04:00"
+[2025-06-25 02:05:50 INF] Visited Home Page at "2025-06-25T02:05:50.3189931+04:00"
+[2025-06-25 02:07:04 INF] Visited Home Page at "2025-06-25T02:07:04.8494109+04:00"
+[2025-06-25 02:07:46 INF] Visited Home Page at "2025-06-25T02:07:46.8258997+04:00"
+[2025-06-25 02:08:50 INF] Visited Home Page at "2025-06-25T02:08:50.5047435+04:00"
