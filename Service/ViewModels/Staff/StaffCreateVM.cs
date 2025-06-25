@@ -1,17 +1,21 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Service.ViewModels.Staff
 {
-    public class StaffVM
+    public class StaffCreateVM
     {
-        public int Id { get; set; }
-        public string Image { get; set; }
-        public string ImageUrl { get; set; }
+        [Required]
         public string Name { get; set; }
+        [Required]
         public string Position { get; set; }
+        [Required]
+        public IFormFile Image { get; set; }
+
     }
 }

@@ -351,6 +351,7 @@ wwwroot\admin\assets\js\plugins\feather.min.js
 wwwroot\admin\assets\js\plugins\popper.min.js
 wwwroot\admin\assets\js\plugins\simplebar.min.js
 wwwroot\admin\assets\js\script.js
+wwwroot\admin\assets\js\staff.js
 wwwroot\admin\assets\js\tech-stack.js
 wwwroot\admin\assets\js\theme.js
 wwwroot\admin\assets\js\widgets\app-sales.js
