@@ -13,5 +13,8 @@ namespace Service.Services.Interfaces
         Task<IEnumerable<BlogDetailVM>> GetAllBlogsWithCategoriesAndImages();
         Task<IEnumerable<BlogDetailVM>> GetAllByCategoryId(int id);
         Task<BlogDetailVM> GetBlogById(int id);
+        Task Create(BlogCreateVM model);
+        Task Delete(int id);
+        Task Edit(int id,  BlogEditVM model);
     }
 }

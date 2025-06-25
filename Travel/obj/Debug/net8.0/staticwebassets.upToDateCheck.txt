@@ -313,6 +313,7 @@ wwwroot\admin\assets\js\admin\invoice-list.js
 wwwroot\admin\assets\js\admin\membership-dashboard.js
 wwwroot\admin\assets\js\application\calendar.js
 wwwroot\admin\assets\js\application\todo.js
+wwwroot\admin\assets\js\blog.js
 wwwroot\admin\assets\js\blogCategory.js
 wwwroot\admin\assets\js\chart_maps\canada.js
 wwwroot\admin\assets\js\chart_maps\chart-apex.js

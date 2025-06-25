@@ -25,5 +25,9 @@ namespace Repository.Repositories
             return await _context.Blogs.Include(m => m.BlogCategory).ToListAsync();
         }
 
+        public async Task<Blog> GetBlogById(int id)
+        {
+            return await _context.Blogs.Include(m => m.BlogCategory).FirstOrDefaultAsync(m => m.Id == id);
+        }
     }
 }

@@ -148,7 +148,7 @@
                                 <a asp-controller="Blog" asp-action="BlogDetail" asp-route-id="@blog.Id">
                                     <div class="blog">
                                         <div class="img"
-                                             style="background-image: url('assets/images/home/@blog.Image'); background-size: cover;">
+                                             style="background-image: url('@blog.ImageUrl'); background-size: cover;">
                                         </div>
                                         <div class="contain">
                                             <div class="x">
@@ -165,7 +165,7 @@
                                             </div>
                                             <div class="author">
                                                 <div class="image"
-                                                     style="background-image: url('assets/images/home/@blog.AuthorImage'); background-size: cover;">
+                                                     style="background-image: url('@blog.AuthorImageUrl'); background-size: cover;">
                                                 </div>
                                                 <div class="name">
                                                     <p>@blog.AuthorName</p>
