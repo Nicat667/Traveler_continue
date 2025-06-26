@@ -283,7 +283,7 @@
                                     <div class="col-lg-6 col-md-6 item" data-price="@hotel.MinPrice">
                                         <a asp-controller="Hotel" asp-action="Detail" asp-route-id="@hotel.Id">
                                             <div class="image">
-                                                <img src="~/assets/images/hotels/@hotel.MainImage">
+                                                <img src="@hotel.HotelImageUrl">
                                             </div>
 
                                             <div class="contain">

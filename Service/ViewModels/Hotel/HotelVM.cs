@@ -13,6 +13,7 @@ namespace Service.ViewModels.Hotel
         public string Address { get; set; }
         public int StarCount { get; set; }
         public string MainImage { get; set; }
+        public string HotelImageUrl { get; set; }
         public decimal MinPrice { get; set; }
         public decimal MaxPrice { get; set; }
         public decimal Rate { get; set; }

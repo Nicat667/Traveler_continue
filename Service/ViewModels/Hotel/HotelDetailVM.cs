@@ -1,4 +1,5 @@
 ﻿using Domain.Models;
+using Service.ViewModels.HotelImages;
 using Service.ViewModels.Room;
 using System;
 using System.Collections.Generic;
@@ -22,7 +23,8 @@ namespace Service.ViewModels.Hotel
         public bool Restaurant { get; set; }
         public bool SpaSauna { get; set; }
         public decimal Rate { get; set; }
-        public IEnumerable<HotelImage> Images { get; set; } 
+        public IEnumerable<HotelImage> Images { get; set; }
+        public IEnumerable<HotelImageVM> ImageUrls { get; set; }
         public IEnumerable<Comment> Comments { get; set; }
         public IEnumerable<RoomVM> Rooms { get; set; }
     }
