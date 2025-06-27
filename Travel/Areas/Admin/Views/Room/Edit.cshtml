@@ -1,0 +1,109 @@
+﻿@model RoomEditVM
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<div class="pc-container">
+    <div class="pc-content">
+        <a asp-action="Index" asp-route-id="@Model.HotelId" class="btn btn-success mt-1" style="width: 75px">Return</a>
+        <form method="post" asp-action="Edit" enctype="multipart/form-data">
+            <div class="form-group">
+                <label asp-for="Type">Type</label>
+                <select asp-for="Type" class="form-control" asp-items="ViewBag.RoomTypes">
+                    <option value="">-- Select Category --</option>
+                </select>
+                <span class="text-danger" asp-validation-for="Type"></span>
+            </div>
+            <input type="hidden" asp-for="HotelId"/>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Area</label>
+                <input type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Area" asp-for="Area">
+                <span class="text-danger" asp-validation-for="Area"></span>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Price</label>
+                <input type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Price" asp-for="Price">
+                <span class="text-danger" asp-validation-for="Price"></span>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Describtion</label>
+                <input class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Describtion" asp-for="Describtion">
+                <span class="text-danger" asp-validation-for="Describtion"></span>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Guest Capacity</label>
+                <input class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Guest Capacity" asp-for="GuestCapacity">
+                <span class="text-danger" asp-validation-for="GuestCapacity"></span>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Bed Count</label>
+                <input class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Bed Count" asp-for="BedCount">
+                <span class="text-danger" asp-validation-for="BedCount"></span>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+
+        <p style="font-size:35px; font-weight:700">Images</p>
+        <a asp-action="AddImages" asp-route-id="@Model.Images.FirstOrDefault().RoomId" class="btn btn-warning" style="width:140px">Add New Image</a>
+        @{
+            var totalImages = Model.Images.Count();
+        }
+        @foreach (var item in Model.Images)
+        {
+            <div class="Images" data-id="@item.Id" data-is-main="@item.IsMain.ToString().ToLower()">
+                <img src="@item.Url" alt="Hotel Image" style="width:300px; height:200px" />
+                <div class="image-buttons">
+                    <a asp-action="Change" asp-route-id="@item.Id" class="btn btn-warning">Change</a>
+
+                    <button class="btn btn-primary setmain" data-id="@item.Id" roomId="@Model.Id" style="@(item.IsMain ? "display:none;" : "")">SetMain</button>
+
+                    <button class="btn btn-danger deleteImage" data-id="@item.Id" style="@(item.IsMain ? "display:none;" : "")" @(item.IsMain ? "disabled" : "")>Delete</button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+<style>
+    .Images {
+        position: relative;
+        display: inline-block;
+        margin: 10px;
+    }
+
+        .Images img {
+            width: 300px;
+            height: auto;
+            border-radius: 6px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+            transition: 0.3s ease;
+        }
+
+    .image-buttons {
+        position: absolute;
+        bottom: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 5px;
+        opacity: 0;
+        transition: 0.3s ease;
+    }
+
+    .btn {
+        width: 70px;
+        height: 35px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        <figcaption>text</figcaption> </figure>
+    }
+
+    .Images:hover .image-buttons {
+        opacity: 1;
+    }
+
+    .image-buttons .btn {
+        font-size: 0.85rem;
+        padding: 4px 8px;
+    }
+</style>
+
+<script src="~/admin/assets/js/roomImage.js"></script>

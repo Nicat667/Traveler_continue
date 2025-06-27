@@ -31,6 +31,7 @@ namespace Service
             services.AddScoped<IBlogCategoryService, BlogCategoryService>();
             services.AddScoped<IEmailTableService, EmailTableService>();
             services.AddScoped<IHotelImageService, HotelImageService>();
+            services.AddScoped<IRoomImageService, RoomImageService>();
             return services;
         }
     }

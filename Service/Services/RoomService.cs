@@ -15,17 +15,20 @@ namespace Service.Services
         private readonly IEmailService _emailService;
         private readonly UserManager<AppUser> _userManager;
         private readonly IBlobStorage _blobStorage;
+        private readonly IRoomImageService _roomImageService;
         public RoomService(IRoomRepository roomRepository, 
                            IReservationService reservationService, 
                            IEmailService emailService, 
                            UserManager<AppUser> userManager,
-                           IBlobStorage blobStorage)
+                           IBlobStorage blobStorage,
+                           IRoomImageService roomImageService)
         {
             _roomRepository = roomRepository;
             _reservationService = reservationService;
             _emailService = emailService;
             _userManager = userManager;
             _blobStorage = blobStorage;
+            _roomImageService = roomImageService;
         }
 
         public async Task<bool> BookRoom(BookVM model)
@@ -40,7 +43,9 @@ namespace Service.Services
                     m.HotelId == model.HotelId &&
                     m.Type == requestedRoom.Type &&
                     m.BedCount == requestedRoom.BedCount &&
-                    m.GuestCapacity == requestedRoom.GuestCapacity)
+                    m.GuestCapacity == requestedRoom.GuestCapacity &&
+                    m.Area == requestedRoom.Area &&
+                    m.Price == requestedRoom.Price)
                 .ToList();
 
             List<Room> availableRooms = sameGroupRooms
@@ -82,7 +87,63 @@ namespace Service.Services
             return false;
         }
 
+        public async Task Create(RoomCreateVM model)
+        {
+            Room room = new Room()
+            {
+                Type = model.Type,
+                Area = model.Area,
+                Price = model.Price,
+                GuestCapacity = model.GuestCapacity,
+                BedCount = model.BedCount,
+                Description = model.Describtion,
+                HotelId = model.HotelId,
+            };
+            await _roomRepository.CreateAsync(room);
+            List<RoomImageCreateVM> images = new List<RoomImageCreateVM>();
+            foreach(var item in model.Images)
+            {
+                RoomImageCreateVM image = new RoomImageCreateVM()
+                {
+                    IsMain = false,
+                    RoomId = room.Id,
+                    NewImage = item,
+                };
+                images.Add(image);
+                
+            }
+            images.FirstOrDefault().IsMain = true;
+            foreach (var image in images)
+            {
+                await _roomImageService.Create(image);
+            }
+        }
 
+        public async Task Delete(int id)
+        {
+            var data = await _roomRepository.GetByIdAsync(id);
+            if(data != null)
+            {
+                await _roomRepository.DeleteAsync(data);
+                foreach (var item in data.RoomImages)
+                {
+                    await _blobStorage.DeleteAsync(item.Name);
+                }
+            }
+        }
+
+        public async Task Edit(int id, RoomEditVM model)
+        {
+            var existData = await _roomRepository.GetRoomById(id);
+            existData.Description = model.Describtion;
+            existData.Price = model.Price;
+            existData.Area = model.Area;
+            existData.BedCount = model.BedCount;
+            existData.GuestCapacity = model.GuestCapacity;
+            existData.Type = model.Type;
+            existData.HotelId = model.HotelId;
+            await _roomRepository.UpdateAsync(existData);
+        }
 
         public async Task<IEnumerable<RoomVM>> GetAllRooms()
         {
@@ -129,7 +190,7 @@ namespace Service.Services
                 {
                     Id= image.Id,
                     IsMain = image.IsMain,
-                    RoomId = image.Id,
+                    RoomId = image.RoomId,
                     Url = await _blobStorage.GetBlobUrlAsync(image.Name)
                 };
                 imageWithUrls.Add(imageVM);
@@ -139,36 +200,13 @@ namespace Service.Services
             return roomDetailVM;
         }
 
-        //public async Task<List<RoomVM>> GetRoomsByHotelId(int hotelId)
-        //{
-        //    var datas = await _roomRepository.GetRoomsByHotelId(hotelId);
-
-        //    return datas
-        //        .Select(m => new RoomVM
-        //        {
-        //            Id = m.Id,
-        //            Area = m.Area,
-        //            Price = m.Price,
-        //            BedCount = m.BedCount,
-        //            GuestCapacity = m.GuestCapacity,
-        //            HotelId = m.HotelId,
-        //            MainImage = m.RoomImages.FirstOrDefault(m => m.IsMain).Name,
-        //            Type = m.Type.ToString()
-        //        })
-        //        .GroupBy(r => new { r.GuestCapacity, r.BedCount }) 
-        //        .Select(group =>
-        //        {
-        //            var room = group.First();
-        //            return room;
-        //        }).ToList();
-        //}
         public async Task<List<RoomVM>> GetRoomsByHotelId(int hotelId)
         {
             var datas = await _roomRepository.GetRoomsByHotelId(hotelId);
 
             var roomVMs = new List<RoomVM>();
 
-            foreach (var group in datas.GroupBy(r => new { r.GuestCapacity, r.BedCount }))
+            foreach (var group in datas.GroupBy(r => new { r.GuestCapacity, r.BedCount, r.Area, r.Price }))
             {
                 var m = group.First();
 
@@ -182,7 +220,6 @@ namespace Service.Services
                     HotelId = m.HotelId,
                     Type = m.Type.ToString(),
                     ImageUrl = await _blobStorage.GetBlobUrlAsync(m.RoomImages.FirstOrDefault(m => m.IsMain).Name),
-                    Count = group.Count()
                 };
 
                 roomVMs.Add(roomVM);
@@ -190,5 +227,33 @@ namespace Service.Services
 
             return roomVMs;
         }
+
+        public async Task<IEnumerable<RoomVM>> GetRoomsByHotelIdWithoutGrouping(int hotelId)
+        {
+            var datas = await _roomRepository.GetRoomsByHotelId(hotelId);
+
+            var roomVMs = new List<RoomVM>();
+
+            foreach (var m in datas)
+            {
+                var roomVM = new RoomVM
+                {
+                    Id = m.Id,
+                    Area = m.Area,
+                    Price = m.Price,
+                    BedCount = m.BedCount,
+                    GuestCapacity = m.GuestCapacity,
+                    HotelId = m.HotelId,
+                    Type = m.Type.ToString(),
+                    ImageUrl = await _blobStorage.GetBlobUrlAsync(m.RoomImages.FirstOrDefault(m => m.IsMain).Name),
+                };
+
+                roomVMs.Add(roomVM);
+            }
+
+            return roomVMs;
+        }
+
+
     }
 }

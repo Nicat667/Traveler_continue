@@ -1,0 +1,36 @@
+﻿@model RoomDetailVM
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+<div class="pc-container">
+    <div class="pc-content">
+        <a asp-controller="Room" asp-action="Index" asp-route-id="@Model.HotelId" class="btn btn-success">Return</a>
+        <div class="card shadow-sm p-4 mb-5 bg-white rounded">
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="d-flex flex-wrap gap-2">
+                        @foreach (var imageUrl in Model.ImagesUrls)
+                        {
+                            <img src="@imageUrl.Url" class="img-fluid rounded" style="max-width: 100%; max-height: 200px;" />
+                        }
+                    </div>
+                </div>
+                <div class="col-md-7">
+                    <p style="font-size:18px"><span style="font-weight:500; font-size:20px">Type:</span> @Model.Type</p>
+                    <p style="font-size:18px"><span style="font-weight:500; font-size:20px">Area:</span> @Model.Area</p>
+                    <p style="font-size:18px"><span style="font-weight:500; font-size:20px">Guest Capacity:</span> @Model.GuestCapacity</p>
+                    <p style="font-size:18px"><span style="font-weight:500; font-size:20px">Bed Count:</span> @Model.BedCount</p>
+                    <p style="font-size:18px"><span style="font-weight:500; font-size:20px">Price:</span> @Model.Price</p>
+
+                
+
+                    <p style="font-weight:500; font-size:20px; margin:0" style="font-weight:500; font-size:20px">Description:</p>
+                    <p style="font-size:16px">
+                        @Model.Description
+                    </p>
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

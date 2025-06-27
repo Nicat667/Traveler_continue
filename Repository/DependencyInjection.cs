@@ -26,6 +26,7 @@ namespace Repository
             services.AddScoped<IBlogCategoryRepository, BlogCategoryRepository>();
             services.AddScoped<IEmailRepository, EmailRepository>();
             services.AddScoped<IHotelImageRepository, HotelImageRepository>();
+            services.AddScoped<IRoomImageRepository, RoomImageRepository>();
             return services;
         }
     }

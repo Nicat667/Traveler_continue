@@ -6,7 +6,7 @@
 <div class="pc-container">
     <div class="pc-content">
         <a asp-action="Index" class="btn btn-success">Return</a>
-        <a asp-controller="Room" asp-action="Create" class="btn btn-success" style="margin-left:15px">Add Room</a>
+        <a asp-controller="Room" asp-action="Create" asp-route-id="@Model.Id" class="btn btn-success" style="margin-left:15px">Add Room</a>
         <a asp-controller="Room" asp-action="Index" asp-route-id="@Model.Id" class="btn btn-primary" style="margin-left:15px">Rooms</a>
         <div class="card shadow-sm p-4 mb-5 bg-white rounded">
             <div class="row">

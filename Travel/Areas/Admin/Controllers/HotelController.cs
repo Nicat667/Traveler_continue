@@ -67,8 +67,12 @@ namespace Travel.Areas.Admin.Controllers
             {
                 return BadRequest();
             }
-
-            if(!ModelState.IsValid)
+            if (model.Images == null || model.Images.Count() < 5)
+            {
+                ModelState.AddModelError("Images", "Please upload at least 5 images.");
+                return View(model);
+            }
+            if (!ModelState.IsValid)
             {
                 return View(model);
             }

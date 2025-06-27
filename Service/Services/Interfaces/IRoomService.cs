@@ -14,6 +14,9 @@ namespace Service.Services.Interfaces
         Task<List<RoomVM>> GetRoomsByHotelId(int hotelId);
         Task<RoomDetailVM> GetRoomById(int id);
         Task<bool> BookRoom(BookVM model);
-    
+        Task Create(RoomCreateVM model);   
+        Task<IEnumerable<RoomVM>> GetRoomsByHotelIdWithoutGrouping(int hotelId);
+        Task Delete(int id);
+        Task Edit(int id, RoomEditVM model);
     }
 }

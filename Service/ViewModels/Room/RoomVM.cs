@@ -17,6 +17,5 @@ namespace Service.ViewModels.Room
         public int BedCount { get; set; }
         public int HotelId { get; set; }
         public string ImageUrl { get; set; }
-        public int Count { get; set; }
     }
 }

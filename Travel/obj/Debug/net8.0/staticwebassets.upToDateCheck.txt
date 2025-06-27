@@ -353,6 +353,8 @@ wwwroot\admin\assets\js\plugins\clipboard.min.js
 wwwroot\admin\assets\js\plugins\feather.min.js
 wwwroot\admin\assets\js\plugins\popper.min.js
 wwwroot\admin\assets\js\plugins\simplebar.min.js
+wwwroot\admin\assets\js\room.js
+wwwroot\admin\assets\js\roomImage.js
 wwwroot\admin\assets\js\script.js
 wwwroot\admin\assets\js\staff.js
 wwwroot\admin\assets\js\tech-stack.js
