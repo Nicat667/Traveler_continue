@@ -83,7 +83,6 @@ namespace Service.Services
                     Id = data.Id,
                     Name = data.Name,
                     StarCount = data.StarCount,
-                    MainImage = data.HotelImages.FirstOrDefault(x => x.IsMain == true).Name,
                     HotelImageUrl = await _blobStorage.GetBlobUrlAsync(data.HotelImages.FirstOrDefault(x => x.IsMain == true).Name),
                     Address = data.Address,
                     MinPrice = data.Rooms.Any(r => r.HotelId == data.Id) ? data.Rooms.Where(r => r.HotelId == data.Id).Min(r => r.Price) : 0,
@@ -109,7 +108,7 @@ namespace Service.Services
                     Id = m.Id,
                     Name = m.Name,
                     StarCount = m.StarCount,
-                    MainImage = m.HotelImages.FirstOrDefault(x => x.IsMain == true).Name,
+                    //MainImage = m.HotelImages.FirstOrDefault(x => x.IsMain == true).Name,
                     Address = m.Address,
                     MinPrice = m.Rooms.Any(r => r.HotelId == m.Id) ? m.Rooms.Where(r => r.HotelId == m.Id).Min(r => r.Price) : 0,
                     CommentCount = m.Comments.Count(x => x.HotelId == m.Id),
@@ -132,7 +131,6 @@ namespace Service.Services
                 Name = data.Name,
                 StarCount = data.StarCount,
                 Address = data.Address,
-                Images = data.HotelImages.Where(m => m.HotelId == id),
                 Comments = data.Comments.Where(m => m.HotelId == id),
                 Rate = data.Comments.Any(c => c.HotelId == data.Id) ? data.Comments.Where(c => c.HotelId == data.Id).Sum(c => c.Rate) / (decimal)data.Comments.Count(c => c.HotelId == data.Id) : 5,
                 Restaurant = data.Restaurant,
@@ -145,7 +143,7 @@ namespace Service.Services
                 Rooms = await _roomService.GetRoomsByHotelId(id)
             };
             List<HotelImageVM> urls = new List<HotelImageVM>();
-            foreach(var image in vm.Images)
+            foreach(var image in data.HotelImages.Where(m => m.HotelId == id))
             {
                 HotelImageVM hotelImageVM = new HotelImageVM()
                 {
@@ -171,7 +169,6 @@ namespace Service.Services
                     Id = data.Id,
                     Name = data.Name,
                     StarCount = data.StarCount,
-                    MainImage = data.HotelImages.FirstOrDefault(x => x.IsMain == true).Name,
                     HotelImageUrl = await _blobStorage.GetBlobUrlAsync(data.HotelImages.FirstOrDefault(x => x.IsMain == true).Name),
                     Address = data.Address,
                     MinPrice = data.Rooms.Any(r => r.HotelId == data.Id) ? data.Rooms.Where(r => r.HotelId == data.Id).Min(r => r.Price) : 0,
@@ -197,7 +194,6 @@ namespace Service.Services
                     Id = data.Id,
                     Name = data.Name,
                     StarCount = data.StarCount,
-                    MainImage = data.HotelImages.FirstOrDefault(x => x.IsMain == true).Name,
                     HotelImageUrl = await _blobStorage.GetBlobUrlAsync(data.HotelImages.FirstOrDefault(x => x.IsMain == true).Name),
                     Address = data.Address,
                     MinPrice = data.Rooms.Any(r => r.HotelId == data.Id) ? data.Rooms.Where(r => r.HotelId == data.Id).Min(r => r.Price) : 0,
@@ -243,7 +239,6 @@ namespace Service.Services
                 Id = m.Id,
                 Name = m.Name,
                 StarCount = m.StarCount,
-                MainImage = m.HotelImages.FirstOrDefault(x => x.IsMain == true).Name,
                 Address = m.Address,
                 MinPrice = m.Rooms.Any(r => r.HotelId == m.Id) ? m.Rooms.Where(r => r.HotelId == m.Id).Min(r => r.Price) : 0,
                 MaxPrice = m.Rooms.Any(r => r.HotelId == m.Id) ? m.Rooms.Where(r => r.HotelId == m.Id).Max(r => r.Price) : 0,
@@ -251,11 +246,14 @@ namespace Service.Services
                 Rate = m.Comments.Any(c => c.HotelId == m.Id) ? m.Comments.Where(c => c.HotelId == m.Id).Sum(c => c.Rate) / (decimal)m.Comments.Count(c => c.HotelId == m.Id) : 5
             }).ToList();
 
-            foreach(var hotel in hotels)
+            foreach (var hotel in hotels)
             {
-                if (!string.IsNullOrEmpty(hotel.MainImage))
+                var hotelEntity = datas.FirstOrDefault(x => x.Id == hotel.Id);
+                var mainImage = hotelEntity?.HotelImages.FirstOrDefault(i => i.IsMain);
+
+                if (mainImage != null)
                 {
-                    hotel.HotelImageUrl = await _blobStorage.GetBlobUrlAsync(hotel.MainImage);
+                    hotel.HotelImageUrl = await _blobStorage.GetBlobUrlAsync(mainImage.Name);
                 }
             }
             return hotels;

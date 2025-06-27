@@ -4,6 +4,7 @@ using Repository.Repositories.Interfaces;
 using Service.Helpers.Responses;
 using Service.Services.Interfaces;
 using Service.ViewModels.Room;
+using Service.ViewModels.RoomImages;
 
 namespace Service.Services
 {
@@ -13,12 +14,18 @@ namespace Service.Services
         private readonly IReservationService _reservationService;
         private readonly IEmailService _emailService;
         private readonly UserManager<AppUser> _userManager;
-        public RoomService(IRoomRepository roomRepository, IReservationService reservationService, IEmailService emailService, UserManager<AppUser> userManager)
+        private readonly IBlobStorage _blobStorage;
+        public RoomService(IRoomRepository roomRepository, 
+                           IReservationService reservationService, 
+                           IEmailService emailService, 
+                           UserManager<AppUser> userManager,
+                           IBlobStorage blobStorage)
         {
             _roomRepository = roomRepository;
             _reservationService = reservationService;
             _emailService = emailService;
             _userManager = userManager;
+            _blobStorage = blobStorage;
         }
 
         public async Task<bool> BookRoom(BookVM model)
@@ -80,43 +87,92 @@ namespace Service.Services
         public async Task<IEnumerable<RoomVM>> GetAllRooms()
         {
             var datas = await _roomRepository.GetAllRooms();
-            return datas.Select(r => new RoomVM
+            List<RoomVM> rooms = new List<RoomVM>();
+            foreach (var data in datas)
             {
-                Area = r.Area,
-                Price = r.Price,
-                BedCount = r.BedCount,
-                GuestCapacity = r.GuestCapacity,
-                HotelId = r.HotelId,
-                MainImage = r.RoomImages.FirstOrDefault(m => m.IsMain == true).Name,
-                Type = r.Type.ToString()
-            });
+                RoomVM room = new RoomVM()
+                {
+                    Area = data.Area,
+                    Price = data.Price,
+                    BedCount = data.BedCount,
+                    GuestCapacity = data.GuestCapacity,
+                    HotelId = data.HotelId,
+                    Type = data.Type.ToString(),
+                    Id = data.Id,
+                    ImageUrl = await _blobStorage.GetBlobUrlAsync(data.RoomImages.FirstOrDefault(m => m.IsMain == true).Name)
+                };
+                rooms.Add(room);
+            }
+            return rooms;
         }
 
         public async Task<RoomDetailVM> GetRoomById(int id)
         {
             var data = await _roomRepository.GetRoomById(id);
             var options = await GetRoomsByHotelId(data.HotelId);
-            return new RoomDetailVM
+            RoomDetailVM roomDetailVM = new RoomDetailVM()
             {
+                Id = data.Id,
                 Area = data.Area,
                 Price = data.Price,
                 BedCount = data.BedCount,
                 GuestCapacity = data.GuestCapacity,
                 HotelId = data.HotelId,
-                Id = data.Id,
-                Images = data.RoomImages,
                 Type = data.Type.ToString(),
                 Description = data.Description,
-                Options = options.Where(r => r.HotelId == data.HotelId && r.Price != data.Price && r.Id != data.Id).ToList()
+                Options = options.Where(r => r.HotelId == data.HotelId && r.Price != data.Price && r.Id != data.Id).ToList(),
             };
+            List<RoomImageVM> imageWithUrls = new List<RoomImageVM>();
+            foreach(var image in data.RoomImages)
+            {
+                RoomImageVM imageVM = new RoomImageVM()
+                {
+                    Id= image.Id,
+                    IsMain = image.IsMain,
+                    RoomId = image.Id,
+                    Url = await _blobStorage.GetBlobUrlAsync(image.Name)
+                };
+                imageWithUrls.Add(imageVM);
+            }
+
+            roomDetailVM.ImagesUrls = imageWithUrls;
+            return roomDetailVM;
         }
 
+        //public async Task<List<RoomVM>> GetRoomsByHotelId(int hotelId)
+        //{
+        //    var datas = await _roomRepository.GetRoomsByHotelId(hotelId);
+
+        //    return datas
+        //        .Select(m => new RoomVM
+        //        {
+        //            Id = m.Id,
+        //            Area = m.Area,
+        //            Price = m.Price,
+        //            BedCount = m.BedCount,
+        //            GuestCapacity = m.GuestCapacity,
+        //            HotelId = m.HotelId,
+        //            MainImage = m.RoomImages.FirstOrDefault(m => m.IsMain).Name,
+        //            Type = m.Type.ToString()
+        //        })
+        //        .GroupBy(r => new { r.GuestCapacity, r.BedCount }) 
+        //        .Select(group =>
+        //        {
+        //            var room = group.First();
+        //            return room;
+        //        }).ToList();
+        //}
         public async Task<List<RoomVM>> GetRoomsByHotelId(int hotelId)
         {
             var datas = await _roomRepository.GetRoomsByHotelId(hotelId);
 
-            return datas
-                .Select(m => new RoomVM
+            var roomVMs = new List<RoomVM>();
+
+            foreach (var group in datas.GroupBy(r => new { r.GuestCapacity, r.BedCount }))
+            {
+                var m = group.First();
+
+                var roomVM = new RoomVM
                 {
                     Id = m.Id,
                     Area = m.Area,
@@ -124,16 +180,15 @@ namespace Service.Services
                     BedCount = m.BedCount,
                     GuestCapacity = m.GuestCapacity,
                     HotelId = m.HotelId,
-                    MainImage = m.RoomImages.FirstOrDefault(m => m.IsMain).Name,
-                    Type = m.Type.ToString()
-                })
-                .GroupBy(r => new { r.GuestCapacity, r.BedCount }) 
-                .Select(group =>
-                {
-                    var room = group.First();
-                    return room;
-                }).ToList();
-        }
+                    Type = m.Type.ToString(),
+                    ImageUrl = await _blobStorage.GetBlobUrlAsync(m.RoomImages.FirstOrDefault(m => m.IsMain).Name),
+                    Count = group.Count()
+                };
 
+                roomVMs.Add(roomVM);
+            }
+
+            return roomVMs;
+        }
     }
 }

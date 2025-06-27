@@ -1,4 +1,5 @@
 ﻿using Domain.Models;
+using Service.ViewModels.RoomImages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +18,7 @@ namespace Service.ViewModels.Room
         public int BedCount { get; set; }
         public int HotelId { get; set; }
         public string Description { get; set; }
-        public IEnumerable<RoomImage> Images { get; set; }
+        public IEnumerable<RoomImageVM> ImagesUrls { get; set; }
         public IEnumerable<RoomVM> Options { get; set; }
     }
 }

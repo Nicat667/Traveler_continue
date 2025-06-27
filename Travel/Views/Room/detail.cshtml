@@ -136,17 +136,17 @@
             <div class="row">
                 <div class="col-md-4 column">
                     <div class="main">
-                        <img src="~/assets/images/rooms/@Model.Images.FirstOrDefault(m=>m.IsMain).Name">
+                        <img src="@Model.ImagesUrls.FirstOrDefault(m=>m.IsMain).Url">
                     </div>
                 </div>
                 <div class="col-md-4 column">
                     <div class="ordinary">
                         
                         @{
-                            foreach (var item in Model.Images.Where(m => !m.IsMain).Take(2))
+                            foreach (var item in Model.ImagesUrls.Where(m => !m.IsMain).Take(2))
                             {
                                 <div class="item">
-                                    <img src="~/assets/images/rooms/@item.Name">
+                                    <img src="@item.Url">
                                 </div>
                             }
                         }
@@ -156,10 +156,10 @@
                     <div class="ordinary">
 
                         @{
-                            foreach (var item in Model.Images.Where(m => !m.IsMain).Skip(2).Take(2))
+                            foreach (var item in Model.ImagesUrls.Where(m => !m.IsMain).Skip(2).Take(2))
                             {
                                 <div class="item">
-                                    <img src="~/assets/images/rooms/@item.Name">
+                                    <img src="@item.Url">
                                 </div>
                             }
                         }
@@ -294,7 +294,7 @@
                                     <div class="row g-0">
                                         <div class="col-lg-4 col-md-12 col-sm-12 left">
                                             <div class="img">
-                                                <img src="~/assets/images/rooms/@item.MainImage">
+                                                <img src="@item.ImageUrl">
                                             </div>
                                         </div>
                                         <div class="col-lg-4 col-md-12 col-sm-12 right">
