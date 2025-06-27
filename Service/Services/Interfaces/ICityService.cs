@@ -15,5 +15,6 @@ namespace Service.Services.Interfaces
         Task Create(CityCreateVM model);
         Task Delete(int id);
         Task Edit(int id, CityEditVM model);
+        Task<IEnumerable<CityVM>> GetAll();
     }
 }

@@ -1,4 +1,5 @@
-﻿using Repository.Repositories.Interfaces;
+﻿using Domain.Models;
+using Repository.Repositories.Interfaces;
 using Service.Helpers.Responses;
 using Service.Services.Interfaces;
 using Service.ViewModels;
@@ -12,11 +13,63 @@ namespace Service.Services
         private readonly IHotelRepository _hotelRepository;
         private readonly IRoomService _roomService;
         private readonly IBlobStorage _blobStorage;
-        public HotelService(IHotelRepository hotelRepository, IRoomService roomService, IBlobStorage blobStorage)
+        private readonly IHotelImageService _hotelImageService;
+        public HotelService(IHotelRepository hotelRepository,
+                            IRoomService roomService, 
+                            IBlobStorage blobStorage, 
+                            IHotelImageService hotelImageService)
         {
             _hotelRepository = hotelRepository;
             _roomService = roomService;
             _blobStorage = blobStorage;
+            _hotelImageService = hotelImageService;
+        }
+
+        public async Task Create(HotelCreateVM model)
+        {
+            Hotel hotel = new Hotel()
+            {
+                Name = model.Name,
+                Description = model.Description,
+                Address = model.Address,
+                SpaSauna = model.SpaSauna,
+                StarCount = model.StarCount,
+                AirConditioning = model.AirConditioning,
+                AirportTransport = model.AirportTransport,
+                CityId = model.CityId,
+                FitnessCenter = model.FitnessCenter,
+                Parking = model.Parking,
+                Restaurant = model.Restaurant,
+            };
+            List<HotelImageCreateVM> images = new List<HotelImageCreateVM>();
+            await _hotelRepository.CreateAsync(hotel);
+            foreach (var item in model.Images)
+            {
+                HotelImageCreateVM image = new HotelImageCreateVM()
+                {
+                    IsMain = false,
+                    Name = await _blobStorage.UploadAsync(item),
+                    HotelId = hotel.Id,
+                };
+              
+                images.Add(image);
+            }
+            images.FirstOrDefault().IsMain = true;
+            
+            await _hotelImageService.Create(images);
+        }
+
+        public async Task Delete(int id)
+        {
+            var data = await _hotelRepository.GetHotelById(id);
+            if(data != null)
+            {
+                await _hotelRepository.DeleteAsync(data);
+                foreach(var image in data.HotelImages)
+                {
+                    await _blobStorage.DeleteAsync(image.Name);
+                }
+            }
         }
 
         public async Task<IEnumerable<HotelVM>> GetAllHotel()
@@ -96,6 +149,8 @@ namespace Service.Services
             {
                 HotelImageVM hotelImageVM = new HotelImageVM()
                 {
+                    HotelId = image.HotelId,
+                    Id = image.Id,
                     IsMain = image.IsMain,
                     Url = await _blobStorage.GetBlobUrlAsync(image.Name)
                 };
@@ -206,5 +261,22 @@ namespace Service.Services
             return hotels;
         }
 
+        public async Task Update(int id, HotelEditVM model)
+        {
+            var existData = await _hotelRepository.GetHotelById(id);
+            existData.Name = model.Name;
+            existData.Description = model.Description;
+            existData.Address = model.Address;
+            existData.AirportTransport = model.AirportTransport;
+            existData.Restaurant = model.Restaurant;
+            existData.AirConditioning = model.AirConditioning;
+            existData.CityId = model.CityId;
+            existData.FitnessCenter = model.FitnessCenter;
+            existData.SpaSauna = model.SpaSauna;
+            existData.Parking = model.Parking;
+            existData.StarCount = model.StarCount;
+
+            await _hotelRepository.UpdateAsync(existData);
+        }
     }
 }

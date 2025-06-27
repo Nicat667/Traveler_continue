@@ -53,6 +53,17 @@ namespace Service.Services
             await _cityRepository.UpdateAsync(existData);
         }
 
+        public async Task<IEnumerable<CityVM>> GetAll()
+        {
+            var datas = await _cityRepository.GetAllAsync();
+            return datas.Select(x => new CityVM
+            {
+                Name = x.Name,
+                Image = x.Image,
+                Id = x.Id,
+            });
+        }
+
         public async Task<IEnumerable<CityVM>> GetAllWihHotelsAsync()
         {
             var cities = await _cityRepository.GetAllWithHotels();

@@ -343,6 +343,8 @@ wwwroot\admin\assets\js\faq.js
 wwwroot\admin\assets\js\forms\form-masking-custom.js
 wwwroot\admin\assets\js\forms\form-validation.js
 wwwroot\admin\assets\js\forms\page-croper.js
+wwwroot\admin\assets\js\hotel.js
+wwwroot\admin\assets\js\hotelImage.js
 wwwroot\admin\assets\js\icon\custom-icon.js
 wwwroot\admin\assets\js\layout-compact.js
 wwwroot\admin\assets\js\layout-horizontal.js

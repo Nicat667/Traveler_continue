@@ -18,6 +18,8 @@ namespace Service.Services.Interfaces
         Task<IEnumerable<HotelVM>> HotelFilter(FilterVM filter);
         Task<IEnumerable<HotelVM>> HotelFilterByCity(int id);
         Task<IEnumerable<HotelVM>> Search(SearchVM query);
-        
+        Task Create(HotelCreateVM model);
+        Task Delete(int id); 
+        Task Update(int id, HotelEditVM model);
     }
 }
