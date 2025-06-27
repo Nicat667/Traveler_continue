@@ -9,6 +9,7 @@ namespace Repository.Repositories.Interfaces
 {
     public interface IRoomImageRepository : IBaseRepository<RoomImage>
     {
-
+        Task<IEnumerable<RoomImage>> GetRoomImagesByRoomId(int id);
+        Task UpdateRange(IEnumerable<RoomImage> models);
     }
 }

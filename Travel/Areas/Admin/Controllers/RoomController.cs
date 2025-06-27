@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Service.Services;
 using Service.Services.Interfaces;
 using Service.ViewModels.Room;
+using Service.ViewModels.RoomImages;
 using System.Threading.Tasks;
 
 namespace Travel.Areas.Admin.Controllers
@@ -175,6 +176,66 @@ namespace Travel.Areas.Admin.Controllers
             }
             await _roomImageService.AddImages(model);
             return RedirectToAction("Index", "Room", new { id = model.HotelId });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Change(int id)
+        {
+            if (id == null)
+            {
+                return BadRequest();
+            }
+            var existImage = await _roomImageService.GetById(id);
+            if (existImage == null)
+            {
+                return NotFound();
+            }
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Change(int id, ChangeRoomImageVM model)
+        {
+            var existData = await _roomImageService.GetById(id);
+            var hotel = await _roomService.GetRoomById(existData.RoomId);
+            if (existData == null)
+            {
+                return NotFound();
+            }
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            await _roomImageService.Change(id, model);
+            return RedirectToAction("Index", "Room", new { id = hotel.HotelId });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteImage(int id)
+        {
+            if(id == null)
+            {
+                return BadRequest();
+            }
+            var data = await _roomImageService.GetById(id);
+            if(data == null)
+            {
+                return NotFound();
+            }
+            await _roomImageService.Delete(id);
+            return Ok();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SetMain(int imageId, int roomId)
+        {
+            if(imageId == null)
+            {
+                return BadRequest();
+            }
+            await _roomImageService.SetMain(imageId, roomId);
+            return Ok();
         }
     }
 }

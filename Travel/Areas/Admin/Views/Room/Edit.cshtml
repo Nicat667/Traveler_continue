@@ -53,9 +53,9 @@
                 <div class="image-buttons">
                     <a asp-action="Change" asp-route-id="@item.Id" class="btn btn-warning">Change</a>
 
-                    <button class="btn btn-primary setmain" data-id="@item.Id" roomId="@Model.Id" style="@(item.IsMain ? "display:none;" : "")">SetMain</button>
+                    <button class="btn btn-primary setmainRoomImage" data-id="@item.Id" roomId="@Model.Id" style="@(item.IsMain ? "display:none;" : "")">SetMain</button>
 
-                    <button class="btn btn-danger deleteImage" data-id="@item.Id" style="@(item.IsMain ? "display:none;" : "")" @(item.IsMain ? "disabled" : "")>Delete</button>
+                    <button class="btn btn-danger deleteRoomImage" data-id="@item.Id" style="@(item.IsMain ? "display:none;" : "")" @(item.IsMain ? "disabled" : "")>Delete</button>
                 </div>
             </div>
         }

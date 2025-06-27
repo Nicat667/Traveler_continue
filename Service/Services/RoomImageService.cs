@@ -35,6 +35,13 @@ namespace Service.Services
             }
         }
 
+        public async Task Change(int id, ChangeRoomImageVM model)
+        {
+            var image = await _roomImageRepository.GetByIdAsync(id);
+            image.Name = await _blobStorage.ReplaceAsync(image.Name, model.Image);
+            await _roomImageRepository.UpdateAsync(image);
+        }
+
         public async Task Create(RoomImageCreateVM model)
         {
             RoomImage roomImage = new RoomImage()
@@ -44,6 +51,56 @@ namespace Service.Services
                 RoomId = model.RoomId,
             };
             await _roomImageRepository.CreateAsync(roomImage);
+        }
+
+        public async Task Delete(int id)
+        {
+            var data = await _roomImageRepository.GetByIdAsync(id);
+            if(data != null)
+            {
+                await _roomImageRepository.DeleteAsync(data);
+                await _blobStorage.DeleteAsync(data.Name);
+            }
+        }
+
+        public async Task<RoomImageVM> GetById(int id)
+        {
+            var data = await _roomImageRepository.GetByIdAsync(id);
+            return new RoomImageVM
+            {
+                Id = id,
+                IsMain = data.IsMain,
+                RoomId = data.RoomId,
+                Url = await _blobStorage.GetBlobUrlAsync(data.Name)
+            };
+        }
+
+        public async Task SetMain(int id, int roomId)
+        {
+            var roomImages = await _roomImageRepository.GetRoomImagesByRoomId(roomId);
+            foreach (var item in roomImages)
+            {
+                if (item.IsMain)
+                {
+                    item.IsMain = false;
+                }
+            }
+            roomImages.FirstOrDefault(m=>m.Id == id).IsMain = true;
+            List<RoomImage> newRoomImages = new List<RoomImage>();
+            foreach (var item in roomImages)
+            {
+                RoomImage image = new RoomImage()
+                {
+                    IsMain = item.IsMain,
+                    RoomId = item.RoomId,
+                    Id = item.Id,
+                    Name = item.Name,
+                };
+                newRoomImages.Add(image);
+            }
+            await _roomImageRepository.UpdateRange(newRoomImages);
+
+            
         }
     }
 }

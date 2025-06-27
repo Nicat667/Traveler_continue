@@ -1,4 +1,5 @@
 ﻿using Domain.Models;
+using Microsoft.EntityFrameworkCore;
 using Repository.Data;
 using Repository.Repositories.Interfaces;
 using System;
@@ -15,6 +16,24 @@ namespace Repository.Repositories
         public RoomImageRepository(AppDbContext context) : base(context)
         {
             _context = context;
+        }
+
+        public async Task<IEnumerable<RoomImage>> GetRoomImagesByRoomId(int id)
+        {
+            return await _context.RoomImages.Where(m=>m.RoomId == id).ToListAsync();
+        }
+
+        public async Task UpdateRange(IEnumerable<RoomImage> models)
+        {
+            foreach (var model in models)
+            {
+                var existData = await _context.RoomImages.FirstOrDefaultAsync(m=>m.Id == model.Id);
+                existData.Name = model.Name;
+                existData.IsMain = model.IsMain;
+                existData.RoomId = model.RoomId;
+                await _context.SaveChangesAsync();
+            }
+            await _context.SaveChangesAsync();
         }
     }
 }
