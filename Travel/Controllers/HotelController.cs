@@ -11,7 +11,10 @@ namespace Reservation_Final.Controllers
         private readonly IHotelService _hotelService;
         private readonly ICommentService _commentService;
         private readonly IHotelImageService _hotelImageService;
-        public HotelController(IHotelService hotelService, ICommentService commentService, IHotelImageService hotelImageService)
+
+        public HotelController(IHotelService hotelService, 
+                               ICommentService commentService, 
+                               IHotelImageService hotelImageService)
         {
             _hotelService = hotelService;
             _commentService = commentService;
@@ -23,6 +26,7 @@ namespace Reservation_Final.Controllers
         }
         public async Task<IActionResult> Detail(int id)
         {
+            
             return View(await _hotelService.GetHotelDetail(id));
         }
         public async Task<IActionResult> Filter(FilterVM filter)

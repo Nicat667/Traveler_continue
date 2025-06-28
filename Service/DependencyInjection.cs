@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
 using Repository.Repositories;
 using Repository.Repositories.Interfaces;
 using Service.Services;
@@ -33,6 +34,8 @@ namespace Service
             services.AddScoped<IHotelImageService, HotelImageService>();
             services.AddScoped<IRoomImageService, RoomImageService>();
             services.AddScoped<IPaymentService, PaymentService>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddScoped<IWishListService, WishListService>();
             return services;
         }
     }

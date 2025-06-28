@@ -225,11 +225,17 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="r">
-                            <div class="like" isliked="true">
-                                <i class="fa-regular fa-heart like-icon"></i>
+                        <div class="r" style="cursor:pointer">
+                            <div class="like wishlist" hotelId="@Model.Id">
+                                <form method="post" asp-controller="WishList" asp-action="Add" asp-route-id="@Model.Id" style="display:inline;">
+                                    <button type="submit" style="all: unset; cursor: pointer;">
+                                        <i class="fa-regular fa-heart like-icon"></i>
+                                    </button>
+                                </form>
                             </div>
                         </div>
+
+                        
                     </div>
                     <div class="description">
                         <div class="title">
@@ -492,6 +498,31 @@
     </div>
 
 </main>
+@* <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+            $(document).ready(function() {
+        $('.like-icon').on('click', function() {
+            var hotelId = $(this).closest('.like.wishlist').attr('hotelId');
+            var token = $('meta[name="csrf-token"]').attr('content');
+
+            $.ajax({
+                url: 'https://localhost:7107/WishList/Add?id=' + hotelId,
+                method: 'POST',
+                headers: {
+                    'RequestVerificationToken': token
+                },
+                success: function() {
+                    // Success handler (optional)
+                },
+                error: function(xhr) {
+                    console.error('Error sending wishlist request:', xhr.statusText);
+                }
+            });
+        });
+    });
+
+
+</script> *@
 @section js {
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCGEyKiDCVY0ACQfUFlNGsvlW9QJF-JCmc&callback=initMap"
             async defer></script>

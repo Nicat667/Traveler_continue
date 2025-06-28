@@ -279,3 +279,6 @@ C:\Users\Nicat\Desktop\Traveler_cantinue\Travel\Travel\obj\Debug\net8.0\Travel.p
 C:\Users\Nicat\Desktop\Traveler_cantinue\Travel\Travel\obj\Debug\net8.0\Travel.genruntimeconfig.cache
 C:\Users\Nicat\Desktop\Traveler_cantinue\Travel\Travel\obj\Debug\net8.0\ref\Travel.dll
 C:\Users\Nicat\Desktop\Traveler_cantinue\Travel\Travel\bin\Debug\net8.0\Stripe.net.dll
+C:\Users\Nicat\Desktop\Traveler_cantinue\Travel\Travel\bin\Debug\net8.0\Microsoft.Extensions.Diagnostics.Abstractions.dll
+C:\Users\Nicat\Desktop\Traveler_cantinue\Travel\Travel\bin\Debug\net8.0\Microsoft.Extensions.Hosting.Abstractions.dll
+C:\Users\Nicat\Desktop\Traveler_cantinue\Travel\Travel\bin\Debug\net8.0\System.Security.Cryptography.Xml.dll

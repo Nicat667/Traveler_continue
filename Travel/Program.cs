@@ -61,8 +61,13 @@ builder.Services.AddRepositoryLayer();
 
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();
-
-
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30); 
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 
 var app = builder.Build();
 
@@ -77,7 +82,7 @@ if (!app.Environment.IsDevelopment())
 }
 builder.Configuration.AddUserSecrets<Program>();
 
-
+app.UseSession();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 

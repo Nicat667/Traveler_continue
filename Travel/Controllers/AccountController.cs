@@ -3,9 +3,11 @@ using Domain.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using Service.Services.Interfaces;
 using Service.ViewModels;
 using Service.ViewModels.Account;
+using Service.ViewModels.WishListVM;
 using System.Threading.Tasks;
 
 namespace Travel.Controllers
@@ -16,15 +18,18 @@ namespace Travel.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly IEmailService _emailService;
         private readonly IEmailTableService _emailTableService;
+        private readonly IWishListService _wishListService;
         public AccountController(SignInManager<AppUser> signInManager, 
                                  UserManager<AppUser> userManager, 
                                  IEmailService emailService,
-                                 IEmailTableService emailTableService)
+                                 IEmailTableService emailTableService,
+                                 IWishListService wishListService)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _emailService = emailService;
             _emailTableService = emailTableService;
+            _wishListService = wishListService;
         }
 
         [HttpGet]
@@ -127,6 +132,22 @@ namespace Travel.Controllers
             }
 
             await _signInManager.SignInAsync(user, false);
+            var wishlistJson = HttpContext.Session.GetString("wishlist");
+            
+
+            if (!string.IsNullOrEmpty(wishlistJson))
+            {
+                List<int> wishlist = JsonConvert.DeserializeObject<List<int>>(wishlistJson);
+                foreach(var item in wishlist)
+                {
+                    WishListVM wishListVM = new WishListVM()
+                    {
+                        HotelId = item,
+                        UserId = user.Id,
+                    };
+                    await _wishListService.Create(wishListVM);
+                }
+            }
             return RedirectToAction("Index", "Home");
         }
 
@@ -137,6 +158,7 @@ namespace Travel.Controllers
         public async Task<IActionResult> LogOut()
         {
             await _signInManager.SignOutAsync();
+            HttpContext.Session.Remove("wishlist");
             return RedirectToAction("Index", "Home");
         }
 

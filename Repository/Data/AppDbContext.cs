@@ -91,9 +91,9 @@ namespace Repository.Data
                 .HasForeignKey(res => res.AppUserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-      
+
             builder.Entity<WishList>()
-                .HasKey(w => new { w.AppUserId, w.HotelId });
+                .HasKey(w => w.Id);
 
             builder.Entity<WishList>()
                 .HasOne(w => w.AppUser)

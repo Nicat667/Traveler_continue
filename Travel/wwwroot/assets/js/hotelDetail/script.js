@@ -219,11 +219,11 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-document.querySelector('.like-icon').addEventListener('click', function () {
-    this.classList.toggle('liked');
-    this.classList.toggle('fa-regular');
-    this.classList.toggle('fa-solid');
-  });
+//document.querySelector('.like-icon').addEventListener('click', function () {        //////////for making red when it is clicked
+//    this.classList.toggle('liked');
+//    this.classList.toggle('fa-regular');
+//    this.classList.toggle('fa-solid');
+//  });
 
 
 const info = document.getElementById("info");
@@ -365,3 +365,55 @@ showMoreBtn.addEventListener('click', function () {
         })
         .catch(err => console.error("Fetch error:", err));
 });
+
+
+
+/////////////////////////////////
+//const icon = document.querySelector('.like-icon');
+
+//if (icon) {
+//    icon.addEventListener('click', async function () {
+//        const likeBtn = this.closest('.like.wishlist');
+//        const hotelId = likeBtn.getAttribute('hotelId');
+
+//        try {
+//            const response = await fetch("https://localhost:7107/WishList/Add?id=" + hotelId, {
+//                method: 'POST',
+//                headers: {
+//                    "Content-Type": "application/json; charset=UTF-8"
+//                }
+//            });
+
+//            if (response.ok) {
+//                this.classList.toggle('liked');
+//                this.classList.toggle('fa-regular');
+//                this.classList.toggle('fa-solid');
+//                this.classList.toggle('red-heart');
+//            } else {
+//                console.error('Failed to update wishlist');
+//            }
+//        } catch (error) {
+//            console.error(error);
+//        }
+//    });
+//}
+
+//const icon = document.querySelector('.like-icon');
+
+//if (icon) {
+//    icon.addEventListener('click', async function () {
+//        const likeBtn = this.closest('.like.wishlist');
+//        const hotelId = likeBtn.getAttribute('hotelId');
+
+//        try {
+//            await fetch("https://localhost:7107/WishList/Add?id=" + hotelId, {
+//                method: 'POST',
+//                headers: {
+//                    "Content-Type": "application/json; charset=UTF-8"
+//                }
+//            });
+//        } catch (error) {
+//            console.error('Error sending wishlist request:', error);
+//        }
+//    });
+//}

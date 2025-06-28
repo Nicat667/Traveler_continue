@@ -132,7 +132,7 @@ namespace Repository.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Blogs");
+                    b.ToTable("Blogs", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Models.BlogCategory", b =>
@@ -149,7 +149,7 @@ namespace Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("BlogCategories");
+                    b.ToTable("BlogCategories", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Models.City", b =>
@@ -170,7 +170,7 @@ namespace Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("City");
+                    b.ToTable("City", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Models.Comment", b =>
@@ -202,7 +202,7 @@ namespace Repository.Migrations
 
                     b.HasIndex("HotelId");
 
-                    b.ToTable("Comments");
+                    b.ToTable("Comments", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Models.Email", b =>
@@ -219,7 +219,7 @@ namespace Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Emails");
+                    b.ToTable("Emails", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Models.FAQ", b =>
@@ -240,7 +240,7 @@ namespace Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("FAQs");
+                    b.ToTable("FAQs", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Models.Hotel", b =>
@@ -291,7 +291,7 @@ namespace Repository.Migrations
 
                     b.HasIndex("CityId");
 
-                    b.ToTable("Hotels");
+                    b.ToTable("Hotels", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Models.HotelImage", b =>
@@ -316,7 +316,7 @@ namespace Repository.Migrations
 
                     b.HasIndex("HotelId");
 
-                    b.ToTable("HotelImages");
+                    b.ToTable("HotelImages", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Models.Reservation", b =>
@@ -346,7 +346,7 @@ namespace Repository.Migrations
 
                     b.HasIndex("RoomId");
 
-                    b.ToTable("Reservations");
+                    b.ToTable("Reservations", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Models.Room", b =>
@@ -385,7 +385,7 @@ namespace Repository.Migrations
 
                     b.HasIndex("HotelId");
 
-                    b.ToTable("Rooms");
+                    b.ToTable("Rooms", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Models.RoomImage", b =>
@@ -410,7 +410,7 @@ namespace Repository.Migrations
 
                     b.HasIndex("RoomId");
 
-                    b.ToTable("RoomImages");
+                    b.ToTable("RoomImages", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Models.Setting", b =>
@@ -431,7 +431,7 @@ namespace Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Settings");
+                    b.ToTable("Settings", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Models.Staff", b =>
@@ -456,7 +456,7 @@ namespace Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Staffs");
+                    b.ToTable("Staffs", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Models.WishList", b =>
@@ -474,7 +474,7 @@ namespace Repository.Migrations
 
                     b.HasIndex("HotelId");
 
-                    b.ToTable("WishLists");
+                    b.ToTable("WishLists", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
