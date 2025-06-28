@@ -32,6 +32,7 @@ namespace Service
             services.AddScoped<IEmailTableService, EmailTableService>();
             services.AddScoped<IHotelImageService, HotelImageService>();
             services.AddScoped<IRoomImageService, RoomImageService>();
+            services.AddScoped<IPaymentService, PaymentService>();
             return services;
         }
     }

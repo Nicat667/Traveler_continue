@@ -34,30 +34,30 @@ namespace Travel.Controllers
             return View(await _roomService.GetRoomById(id));
         }
 
-        public async Task<IActionResult> Book(BookVM model)
-        {
-            if(model==null)
-            {
-                return BadRequest();
-            }
-            if (!_httpContextAccessor.HttpContext.User.Identity.IsAuthenticated)
-            {
-                TempData["BookingError"] = "Please log in to book a room.";
-                return RedirectToAction("Detail", new { id = model.RoomId });
-            }
-            var userName = _httpContextAccessor.HttpContext.User.Identity.Name;
-            AppUser user = await _userManager.FindByNameAsync(userName);
-            model.UserId = user.Id;
-            if (!await _roomService.BookRoom(model))
-            {
-                TempData["BookingError"] = "Not enough rooms available or time range is already booked..";
-                return RedirectToAction("Detail", new { id = model.RoomId });
-            }
+        //public async Task<IActionResult> Book(BookVM model)
+        //{
+        //    if(model==null)
+        //    {
+        //        return BadRequest();
+        //    }
+        //    if (!_httpContextAccessor.HttpContext.User.Identity.IsAuthenticated)
+        //    {
+        //        TempData["BookingError"] = "Please log in to book a room.";
+        //        return RedirectToAction("Detail", new { id = model.RoomId });
+        //    }
+        //    var userName = _httpContextAccessor.HttpContext.User.Identity.Name;
+        //    AppUser user = await _userManager.FindByNameAsync(userName);
+        //    model.UserId = user.Id;
+        //    if (!await _roomService.BookRoom(model))
+        //    {
+        //        TempData["BookingError"] = "Not enough rooms available or time range is already booked..";
+        //        return RedirectToAction("Detail", new { id = model.RoomId });
+        //    }
 
             
-            TempData["BookingSuccess"] = true;
-            return RedirectToAction("Detail", new { id = model.RoomId });
-        }
+        //    TempData["BookingSuccess"] = true;
+        //    return RedirectToAction("Detail", new { id = model.RoomId });
+        //}
 
         public async Task<IActionResult> ShowAllImages(int id)
         {

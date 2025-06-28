@@ -387,7 +387,8 @@
                         <div class="price">
                             <p>$ @Model.Price / night</p>
                         </div>
-                        <form method="post" asp-controller="Room" asp-action="Book">
+                        @* <form method="post" asp-controller="Room" asp-action="Book"> *@
+                        <form method="post" asp-controller="Payment" asp-action="StartBookingPayment">
                             @if (TempData["BookingError"] != null)
                             {
                                 <div class="alert alert-danger">
