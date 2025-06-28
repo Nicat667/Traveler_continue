@@ -18,5 +18,6 @@ namespace Service.Services.Interfaces
         Task Change(int id, ChangeImageVM model);
         Task AddImage(AddImageVM model);
         Task<HotelImageVM> GetById(int id);
+        Task<IEnumerable<HotelImageVM>> GetAllByHotelId(int id);   
     }
 }

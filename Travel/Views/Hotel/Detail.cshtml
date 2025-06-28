@@ -35,6 +35,9 @@
                                 <a asp-controller="Home" asp-action="Index">Home</a>
                             </li>
                             <li>
+                                <a asp-controller="Hotel" asp-action="Index">Hotels</a>
+                            </li>
+                            <li>
                                 <a asp-controller="About" asp-action="Index">About</a>
                             </li>
                             <li>
@@ -133,8 +136,38 @@
         <div class="cus-container">
             <div class="row">
                 <div class="col-md-4 column">
-                    <div class="main">
+                    <div class="main" style="position:relative">
                         <img src="@Model.ImageUrls.FirstOrDefault(m=>m.IsMain).Url">
+                        <a asp-controller="Hotel" asp-action="ShowAllImages" asp-route-id="@Model.Id">
+                            <div class="photosIcon" style="width:60px; height:60px; border-radius:50%">
+                                <i class="fa-solid fa-images"></i>
+                            </div>
+                        </a>
+                        <style>
+                            .main {
+                                position: relative;
+                            }
+
+                            .photosIcon {
+                                position: absolute;
+                                bottom: 18px;
+                                left: 25px;
+                                width: 60px;
+                                height: 60px;
+                                border-radius: 50%;
+                                background-color: white;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                text-decoration: none;
+                                z-index: 10;
+                            }
+
+                                .photosIcon i {
+                                    font-size: 30px;
+                                    color: cornflowerblue;
+                                }
+                        </style>
                     </div>
                 </div>
                 <div class="col-md-4 column">
@@ -438,6 +471,9 @@
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-12 col-sm-12 right">
+                    
+
+                    
                     <div class="mainImage">
                         <div class="img">
                             <img src="@Model.ImageUrls.FirstOrDefault(m=>m.IsMain).Url">

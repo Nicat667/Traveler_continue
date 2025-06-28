@@ -66,6 +66,24 @@ namespace Service.Services
             }
         }
 
+        public async Task<IEnumerable<HotelImageVM>> GetAllByHotelId(int id)
+        {
+            var datas = await _repository.GetImagesByHotelId(id);
+            List<HotelImageVM> images = new List<HotelImageVM>();
+            foreach(var item in datas)
+            {
+                HotelImageVM hotelImageVM = new HotelImageVM()
+                {
+                    Id = item.Id,
+                    IsMain = item.IsMain,
+                    HotelId=item.HotelId,
+                    Url = await _BlobStorage.GetBlobUrlAsync(item.Name),
+                };
+                images.Add(hotelImageVM);
+            }
+            return images;
+        }
+
         public async Task<HotelImageVM> GetById(int id)
         {
             var data = await _repository.GetByIdAsync(id);

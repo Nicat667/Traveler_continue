@@ -18,6 +18,11 @@ namespace Repository.Repositories
             _context = context;
         }
 
+        public async Task<IEnumerable<RoomImage>> GetAllByRoomId(int roomId)
+        {
+            return await _context.RoomImages.Where(m=>m.RoomId == roomId).ToListAsync();
+        }
+
         public async Task<IEnumerable<RoomImage>> GetRoomImagesByRoomId(int id)
         {
             return await _context.RoomImages.Where(m=>m.RoomId == id).ToListAsync();

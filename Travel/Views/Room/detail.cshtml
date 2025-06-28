@@ -5,6 +5,7 @@
 }
 @section css {
     <link rel="stylesheet" href="~/assets/css/roomDetail/style.css">
+   
 }
 <main>
     <section id="nav"
@@ -137,6 +138,45 @@
                 <div class="col-md-4 column">
                     <div class="main">
                         <img src="@Model.ImagesUrls.FirstOrDefault(m=>m.IsMain).Url">
+                        <a asp-controller="Room" asp-action="ShowAllImages" asp-route-id="@Model.Id">
+                            <div class="photoIcon" style="width:60px; height:60px; border-radius:50%">
+                                <i class="fa-solid fa-images"></i>
+                            </div>
+                        </a>
+                        <div class="main">
+                            <img src="@Model.ImagesUrls.FirstOrDefault(m => m.IsMain).Url">
+                            <a asp-controller="Room" asp-action="ShowAllImages" asp-route-id="@Model.Id">
+                                <div class="photoIcon" style="width:60px; height:60px; border-radius:50%">
+                                    <i class="fa-solid fa-images"></i>
+                                </div>
+                            </a>
+                            <style>
+                                .main {
+                                    position: relative;
+                                }
+
+                                .photoIcon {
+                                    position: absolute;
+                                    bottom: 18px;
+                                    left: 25px;
+                                    width: 60px;
+                                    height: 60px;
+                                    border-radius: 50%;
+                                    background-color: white;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    text-decoration: none;
+                                    z-index: 10;
+                                }
+
+                                    .photoIcon i {
+                                        font-size: 30px;
+                                        color: cornflowerblue;
+                                    }
+                            </style>
+                        </div>
+                        
                     </div>
                 </div>
                 <div class="col-md-4 column">

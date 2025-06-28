@@ -17,5 +17,6 @@ namespace Service.Services.Interfaces
         Task SetMain(int id, int roomId);
         Task Change(int id, ChangeRoomImageVM model);
         Task<RoomImageVM> GetById(int id);
+        Task<IEnumerable<RoomImageVM>> GetAllByRoomId(int id);
     }
 }

@@ -63,6 +63,24 @@ namespace Service.Services
             }
         }
 
+        public async Task<IEnumerable<RoomImageVM>> GetAllByRoomId(int id)
+        {
+            var datas = await _roomImageRepository.GetAllByRoomId(id);
+            List<RoomImageVM> result = new List<RoomImageVM>();
+            foreach (var data in datas)
+            {
+                RoomImageVM vm = new RoomImageVM()
+                {
+                    Id = data.Id,
+                    IsMain = data.IsMain,
+                    Url = await _blobStorage.GetBlobUrlAsync(data.Name),
+                    RoomId=data.RoomId,
+                };
+                result.Add(vm);
+            }
+            return result;
+        }
+
         public async Task<RoomImageVM> GetById(int id)
         {
             var data = await _roomImageRepository.GetByIdAsync(id);

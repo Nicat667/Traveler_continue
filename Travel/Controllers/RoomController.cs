@@ -12,12 +12,17 @@ namespace Travel.Controllers
         private readonly IRoomService _roomService;
         private readonly UserManager<AppUser> _userManager;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IRoomImageService _roomImageService;
         
-        public RoomController(IRoomService roomService, UserManager<AppUser> userManager, IHttpContextAccessor httpContextAccessor)
+        public RoomController(IRoomService roomService, 
+                              UserManager<AppUser> userManager, 
+                              IHttpContextAccessor httpContextAccessor,
+                              IRoomImageService roomImageService)
         {
             _roomService = roomService;
             _userManager = userManager;
             _httpContextAccessor = httpContextAccessor;
+            _roomImageService = roomImageService;
         }
         public IActionResult Index()
         {
@@ -52,6 +57,11 @@ namespace Travel.Controllers
             
             TempData["BookingSuccess"] = true;
             return RedirectToAction("Detail", new { id = model.RoomId });
+        }
+
+        public async Task<IActionResult> ShowAllImages(int id)
+        {
+            return View(await _roomImageService.GetAllByRoomId(id));
         }
     }
 }

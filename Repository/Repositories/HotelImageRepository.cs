@@ -25,6 +25,11 @@ namespace Repository.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public async Task<IEnumerable<HotelImage>> GetAllByHotelId(int id)
+        {
+            return await _context.HotelImages.Where(m=>m.HotelId == id).ToListAsync();
+        }
+
         public async Task<IEnumerable<HotelImage>> GetImagesByHotelId(int hotelId)
         {
             return await _context.HotelImages.Where(m=>m.HotelId == hotelId).ToListAsync();

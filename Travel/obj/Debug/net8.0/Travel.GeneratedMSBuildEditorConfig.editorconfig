@@ -260,8 +260,16 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG90ZWxcU2VhcmNoLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/Nicat/Desktop/Traveler_cantinue/Travel/Travel/Views/Hotel/ShowAllImages.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG90ZWxcU2hvd0FsbEltYWdlcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/Nicat/Desktop/Traveler_cantinue/Travel/Travel/Views/Room/detail.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUm9vbVxkZXRhaWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Nicat/Desktop/Traveler_cantinue/Travel/Travel/Views/Room/ShowAllImages.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUm9vbVxTaG93QWxsSW1hZ2VzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Nicat/Desktop/Traveler_cantinue/Travel/Travel/Views/_ViewImports.cshtml]

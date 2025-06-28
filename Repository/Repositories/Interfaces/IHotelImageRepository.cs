@@ -12,5 +12,6 @@ namespace Repository.Repositories.Interfaces
         Task CreateRange(List<HotelImage> hotelImages);
         Task<IEnumerable<HotelImage>> GetImagesByHotelId(int hotelId);
         Task UpdateRange(IEnumerable<HotelImage> hotelImages);
+        Task<IEnumerable<HotelImage>> GetAllByHotelId(int id);
     }
 }

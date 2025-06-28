@@ -10,10 +10,12 @@ namespace Reservation_Final.Controllers
     {
         private readonly IHotelService _hotelService;
         private readonly ICommentService _commentService;
-        public HotelController(IHotelService hotelService, ICommentService commentService)
+        private readonly IHotelImageService _hotelImageService;
+        public HotelController(IHotelService hotelService, ICommentService commentService, IHotelImageService hotelImageService)
         {
             _hotelService = hotelService;
             _commentService = commentService;
+            _hotelImageService = hotelImageService;
         }
         public async Task<IActionResult> Index()
         {
@@ -38,6 +40,10 @@ namespace Reservation_Final.Controllers
         public async Task<IActionResult> ShowMore(int hotelId, int skip)
         {
             return Ok(await _commentService.ShowMore(hotelId, skip));
+        }
+        public async Task<IActionResult> ShowAllImages(int id)
+        {
+            return View(await _hotelImageService.GetAllByHotelId(id));
         }
     }
 }

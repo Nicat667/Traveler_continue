@@ -11,5 +11,6 @@ namespace Repository.Repositories.Interfaces
     {
         Task<IEnumerable<RoomImage>> GetRoomImagesByRoomId(int id);
         Task UpdateRange(IEnumerable<RoomImage> models);
+        Task<IEnumerable<RoomImage>> GetAllByRoomId(int roomId);
     }
 }
