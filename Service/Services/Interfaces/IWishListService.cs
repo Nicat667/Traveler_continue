@@ -15,5 +15,6 @@ namespace Service.Services.Interfaces
         Task Delete(WishListVM vm);
         Task AddOrRemove(int id);
         Task<bool> IsInWishList(int id);
+        Task<bool> ToggleAsync(int id);
     }
 }

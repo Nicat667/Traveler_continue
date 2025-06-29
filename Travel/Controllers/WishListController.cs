@@ -85,12 +85,12 @@ namespace Travel.Controllers
             //        await _wishListService.Delete(wishListVM);
             //    }
             //}
-  
 
-            await _wishListService.AddOrRemove(id);
 
-            
-            bool isInWishlist = await _wishListService.IsInWishList(id);
+            //await _wishListService.AddOrRemove(id);
+            //bool isInWishlist = await _wishListService.IsInWishList(id);
+
+            bool isInWishlist = await _wishListService.ToggleAsync(id);
 
             return Ok(new { isInWishlist });
         }
