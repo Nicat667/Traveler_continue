@@ -369,34 +369,7 @@ showMoreBtn.addEventListener('click', function () {
 
 
 /////////////////////////////////
-//const icon = document.querySelector('.like-icon');
 
-//if (icon) {
-//    icon.addEventListener('click', async function () {
-//        const likeBtn = this.closest('.like.wishlist');
-//        const hotelId = likeBtn.getAttribute('hotelId');
-
-//        try {
-//            const response = await fetch("https://localhost:7107/WishList/Add?id=" + hotelId, {
-//                method: 'POST',
-//                headers: {
-//                    "Content-Type": "application/json; charset=UTF-8"
-//                }
-//            });
-
-//            if (response.ok) {
-//                this.classList.toggle('liked');
-//                this.classList.toggle('fa-regular');
-//                this.classList.toggle('fa-solid');
-//                this.classList.toggle('red-heart');
-//            } else {
-//                console.error('Failed to update wishlist');
-//            }
-//        } catch (error) {
-//            console.error(error);
-//        }
-//    });
-//}
 
 //const icon = document.querySelector('.like-icon');
 

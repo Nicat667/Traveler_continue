@@ -34,6 +34,7 @@ namespace Travel.Controllers
                     HotelId = id,
                     UserId = user.Id
                 };
+                
                 await _wishListService.Create(wishListVM);
             }
             //return Ok(); 
@@ -55,10 +56,43 @@ namespace Travel.Controllers
             return Json(wishlist);
         }
 
-        [HttpGet]
-        public IActionResult Test(int id)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Toggle(int id)
         {
-            return Ok(id);
+            //bool check = await _wishListService.IsInWishList(id);
+            //if (User.Identity.IsAuthenticated)
+            //{
+            //    if (!check)
+            //    {
+            //        var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            //        WishListVM wishListVM = new WishListVM()
+            //        {
+            //            HotelId = id,
+            //            UserId = user.Id
+            //        };
+
+            //        await _wishListService.Create(wishListVM);
+            //    }
+            //    if(check) 
+            //    {
+            //        var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            //        WishListVM wishListVM = new WishListVM()
+            //        {
+            //            HotelId = id,
+            //            UserId = user.Id
+            //        };
+            //        await _wishListService.Delete(wishListVM);
+            //    }
+            //}
+  
+
+            await _wishListService.AddOrRemove(id);
+
+            
+            bool isInWishlist = await _wishListService.IsInWishList(id);
+
+            return Ok(new { isInWishlist });
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Service.Services.Interfaces;
 using Service.ViewModels;
 using Service.ViewModels.Hotel;
@@ -26,7 +27,15 @@ namespace Reservation_Final.Controllers
         }
         public async Task<IActionResult> Detail(int id)
         {
-            
+            var wishlistJson = HttpContext.Session.GetString("wishlist");
+            List<int> wishlist = new();
+
+            if (!string.IsNullOrEmpty(wishlistJson))
+            {
+                wishlist = JsonConvert.DeserializeObject<List<int>>(wishlistJson);
+            }
+
+            ViewBag.Wishlist = wishlist;
             return View(await _hotelService.GetHotelDetail(id));
         }
         public async Task<IActionResult> Filter(FilterVM filter)

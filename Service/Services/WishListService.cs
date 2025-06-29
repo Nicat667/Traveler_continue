@@ -18,6 +18,30 @@ namespace Service.Services
             _contextAccessor = httpContextAccessor;
         }
 
+        public async Task AddOrRemove(int id)
+        {
+            var wishlistJson = _contextAccessor.HttpContext.Session.GetString("wishlist");
+            List<int> list = new List<int>();
+            if (wishlistJson != null)
+            {
+                list = JsonConvert.DeserializeObject<List<int>>(wishlistJson);
+                if (list.Contains(id))
+                {
+                    list.Remove(id);
+
+                }
+                else
+                {
+                    list.Add(id);
+                }
+            }
+            else
+            {
+                list.Add(id);
+            }
+            _contextAccessor.HttpContext.Session.SetString("wishlist", JsonConvert.SerializeObject(list));
+        }
+
         public async Task AddToSession(int id)
         {
             var wishlistJson = _contextAccessor.HttpContext.Session.GetString("wishlist");
@@ -40,11 +64,42 @@ namespace Service.Services
 
         public async Task Create(WishListVM vm)
         {
-            await _repository.CreateAsync(new WishList
+            var datas = await _repository.GetAllAsync();
+            var check = datas.FirstOrDefault(m=>m.AppUserId == vm.UserId && m.HotelId == vm.HotelId);
+            if(check == null)
             {
-                HotelId = vm.HotelId,
+                await _repository.CreateAsync(new WishList
+                {
+                    HotelId = vm.HotelId,
+                    AppUserId = vm.UserId,
+                });
+            }
+           
+        }
+
+        public async Task Delete(WishListVM vm)
+        {
+            WishList wishList = new WishList()
+            {
                 AppUserId = vm.UserId,
-            });
+                HotelId = vm.HotelId,
+            };
+            await _repository.DeleteAsync(wishList);
+        }
+
+        public async Task<bool> IsInWishList(int id)
+        {
+            var wishlistJson = _contextAccessor.HttpContext.Session.GetString("wishlist");
+            List<int> list = null;
+            if (wishlistJson != null)
+            {
+                list = JsonConvert.DeserializeObject<List<int>>(wishlistJson);
+                if (list.Contains(id))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }
