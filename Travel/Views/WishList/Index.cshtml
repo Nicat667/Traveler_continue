@@ -134,6 +134,22 @@
         </div>
     </section>
     <section id="items">
+        @* @if (Model.Count() == 0)
+        {
+            <div id="empty-message" style="width: 100%; height: 100px; background-color: orange; display: flex; align-items: center; justify-content: center;">
+                <p style="margin: 0; font-size: 1.2rem; font-weight: bold; text-align: center;">
+                    No items in your wishlist!
+                </p>
+            </div>
+        } *@
+        @{
+            var noItemsClass = Model.Count() == 0 ? "" : "d-none";
+        }
+        <div id="empty-message" class="@noItemsClass" style="width: 100%; height: 100px; background-color: orange; display: flex; align-items: center; justify-content: center;">
+            <p style="margin: 0; font-size: 1.2rem; font-weight: bold; text-align: center;">
+                No items in your wishlist!
+            </p>
+        </div>
         <div class="container">
             @if(Model.Count() != 0)
             {
@@ -148,7 +164,7 @@
 
                     var iconClass = isInWishlist ? "fa-solid fa-heart like-icon red-heart" : "fa-regular fa-heart like-icon";
 
-                    <div class="item-card" data-id="@item.Id">
+                    <div class="item-card" data-id="@item.Id" style="position:relative;">
                         <a asp-controller="Hotel" asp-action="Detail" asp-route-id="@item.Id">
                             <div class="image">
                                 <img src="@item.MainImageUrl" alt="@item.Name">
@@ -167,7 +183,7 @@
                             </div>
                         </a>
 
-                        <div class="r">
+                        <div class="r" style="position:absolute; top:20px; right:20px; width:40px; height:40px; background-color:white; border-radius:50%; display:flex; align-items:center; justify-content:center">
                             <div class="like wishlist">
                                 <form class="wishlist-toggle-form" method="post" asp-controller="WishList" asp-action="Toggle" asp-route-id="@item.Id" style="display:inline;">
                                     @Html.AntiForgeryToken()
@@ -181,12 +197,7 @@
                 }
                
             }
-            else
-            {
-                <divc class="" style="width:100vh; background-color: orange" >
-                    <p>No items in your wishlist!</p>
-                </divc>
-            }
+            
         </div>
     </section>
     <style>
@@ -266,9 +277,9 @@
                         $form.closest('.item-card').fadeOut(300, function () {
                             $(this).remove();
 
-                            if ($('.item-card').length === 0) {
-                                $('#items .container').html('<p>No items in your wishlist!</p>');
-                            }
+                if ($('.item-card').length === 0) {
+            $('#empty-message').removeClass('d-none'); 
+        }
                         });
                     } else {
                         $icon.removeClass('fa-regular').addClass('fa-solid red-heart');
