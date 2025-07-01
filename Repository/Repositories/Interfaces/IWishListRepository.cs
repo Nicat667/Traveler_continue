@@ -9,5 +9,6 @@ namespace Repository.Repositories.Interfaces
 {
     public interface IWishListRepository : IBaseRepository<WishList>
     {
+        Task<IEnumerable<WishList>> GetByUserId(string userId);
     }
 }

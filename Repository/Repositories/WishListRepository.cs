@@ -1,4 +1,5 @@
 ﻿using Domain.Models;
+using Microsoft.EntityFrameworkCore;
 using Repository.Data;
 using Repository.Repositories.Interfaces;
 using System;
@@ -15,6 +16,11 @@ namespace Repository.Repositories
         public WishListRepository(AppDbContext context) : base(context)
         {
             _context = context;
+        }
+
+        public async Task<IEnumerable<WishList>> GetByUserId(string userId)
+        {
+            return await _context.WishLists.Where(m=>m.AppUserId == userId).ToListAsync();
         }
     }
 }

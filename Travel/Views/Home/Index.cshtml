@@ -65,9 +65,15 @@
                             <i class="fa-solid fa-angle-up curicon_ d-none"></i>
                         </div>
                         <div class="basket">
-                            <div class="circle">
-                                <i class="fa-regular fa-heart like-iconn"></i>
-                            </div>
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <a asp-controller="Wishlist" asp-action="Index" style="text-decoration:none; color:black">
+                                    <div class="circle">
+                                        <i class="fa-regular fa-heart like-iconn"></i>
+                                    </div>
+                                </a>
+                            }
+                            
                         </div>
                         <div class="profile">
                             @if (!User.Identity.IsAuthenticated)
@@ -113,7 +119,7 @@
                 </li>
             </ul>
         </div>
-        <div class="basket-tab d-none">
+       @*  <div class="basket-tab d-none">
 
             <div class="contain">
                 <p class="title">Your Cart</p>
@@ -124,7 +130,7 @@
                     </li>
                 </ul>
             </div>
-        </div>
+        </div> *@
         
         <div class="custom-container">
             <div class="headline">

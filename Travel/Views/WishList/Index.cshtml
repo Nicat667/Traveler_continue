@@ -1,0 +1,284 @@
+﻿@model IEnumerable<HotelsWLVM>
+@inject ISettingService _settingService
+@{
+    var datas = (await _settingService.GetSettings()).ToDictionary(x => x.Key, x => x.Value);
+}
+@section css {
+    <link rel="stylesheet" href="~/assets/css/FAQ/style.css">
+}
+<main>
+    <section id="nav" style="background-image: url('assets/images/home/bannermix-min.webp'); background-size: cover; height: 502px">
+        <div class="navbar">
+            <div class="cus-container">
+                <div class="row align-items-center line">
+                    <div class="col-md-2 left">
+                        <div class="menuIcon d-none">
+                            <i class="fa-solid fa-bars"></i>
+                        </div>
+                        <div class="logo">
+                            <a asp-controller="Home" asp-action="Index">
+                                <picture>
+                                    <source media="(max-width: 990px)" srcset="@datas["blackLogo"]">
+                                    <img class="logo" src="@datas["logo"]">
+                                </picture>
+                            </a>
+                        </div>
+
+                    </div>
+                    <div class="col-md-7 midd">
+                        <ul>
+                            <li>
+                                <a asp-controller="Home" asp-action="Index">Home</a>
+                            </li>
+                            <li>
+                                <a asp-controller="Hotel" asp-action="Index">Hotels</a>
+                            </li>
+                            <li>
+                                <a asp-controller="About" asp-action="Index">About</a>
+                            </li>
+                            <li>
+                                <a asp-controller="Blog" asp-action="Index">Blog</a>
+                            </li>
+                            <li>
+                                <a asp-controller="Contact" asp-action="Index">Contact</a>
+                            </li>
+                            <li>
+                                <a asp-controller="FAQ" asp-action="Index">FAQ</a>
+                            </li>
+                            @if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
+                            {
+                                <li>
+                                    <a asp-area="Admin" asp-controller="Dashboard" asp-action="Index">Admin</a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+
+                    <div class="col-md-3 right">
+                        <div class="currency">
+                            <span id="currency">EUR</span>
+                            <i class="fa-solid fa-angle-down curicon"></i>
+                            <i class="fa-solid fa-angle-up curicon_ d-none"></i>
+                        </div>
+                        <div class="basket">
+                            <div class="circle">
+                                <i class="fa-regular fa-heart like-iconn"></i>
+                            </div>
+                        </div>
+                        <div class="profile">
+                            @if (!User.Identity.IsAuthenticated)
+                            {
+                                <a asp-controller="Account" asp-action="Login">
+                                    <div class="circle">
+                                        <i class="fa-regular fa-user" style="color:black"></i>
+                                    </div>
+                                </a>
+                            }
+                            else
+                            {
+                                <a href="" style="pointer-events: none;">
+                                    <div class="circle">
+                                        <i class="fa-regular fa-user" style="color:black"></i>
+                                    </div>
+                                </a>
+                            }
+                        </div>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <div class="login-info">
+                                <span style="color:white">@User.Identity.Name</span>
+                                <form method="post" asp-controller="Account" asp-action="LogOut">
+                                    <button type="submit" class=" btn btn-primary ">Log out</button>
+                                </form>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="currency-tab d-none">
+            <ul>
+                <li class="li">
+                    USD
+                </li>
+                <li class="li">
+                    EUR
+                </li>
+                <li class="li">
+                    AZN
+                </li>
+            </ul>
+        </div>
+        <div class="basket-tab d-none">
+
+            <div class="contain">
+                <p class="title">Your Cart</p>
+                <hr>
+                <ul>
+                    <li>
+                        <span>Your cart is empty</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="custom-container">
+            <div class="headline">
+                <h1>Let the journey begin</h1>
+                <p>Get the best prices on 2,000,000+ properties, worldwide</p>
+            </div>
+            <div class="categories">
+                <span class="active">Hotels</span>
+                @* <span>Tours</span> *@
+            </div>
+        </div>
+    </section>
+    <section id="items">
+        <div class="container">
+            @if(Model.Count() != 0)
+            {
+                <style>
+                    .red-heart {
+                        color: red;
+                    }
+                </style>
+                @foreach (var item in Model)
+                {
+                    var isInWishlist = ViewBag.Wishlist != null && ((List<int>)ViewBag.Wishlist).Contains(item.Id);
+
+                    var iconClass = isInWishlist ? "fa-solid fa-heart like-icon red-heart" : "fa-regular fa-heart like-icon";
+
+                    <div class="item-card" data-id="@item.Id">
+                        <a asp-controller="Hotel" asp-action="Detail" asp-route-id="@item.Id">
+                            <div class="image">
+                                <img src="@item.MainImageUrl" alt="@item.Name">
+                            </div>
+
+                            <div class="contain">
+                                <div class="stars">
+                                    @for (int i = 1; i <= item.StarCount; i++)
+                                    {
+                                        <span><i class="fa-solid fa-star"></i></span>
+                                    }
+                                </div>
+                                <div class="location">
+                                    <p>@item.Name</p>
+                                </div>
+                            </div>
+                        </a>
+
+                        <div class="r">
+                            <div class="like wishlist">
+                                <form class="wishlist-toggle-form" method="post" asp-controller="WishList" asp-action="Toggle" asp-route-id="@item.Id" style="display:inline;">
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" style="all: unset; cursor: pointer;">
+                                        <i class="@iconClass like-icon"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                }
+               
+            }
+            else
+            {
+                <divc class="" style="width:100vh; background-color: orange" >
+                    <p>No items in your wishlist!</p>
+                </divc>
+            }
+        </div>
+    </section>
+    <style>
+        #items {
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .item-card {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+            .item-card:hover {
+                transform: translateY(-4px);
+            }
+
+            .item-card a {
+                display: flex;
+                flex-direction: column;
+                text-decoration: none;
+                color: inherit;
+            }
+
+        .image img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+            max-height: 220px;
+        }
+
+        .contain {
+            padding: 16px;
+        }
+
+        .stars {
+            color: #f5a623;
+            margin-bottom: 8px;
+        }
+
+        .location p {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+    </style>
+</main>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        $(document).on('submit', '.wishlist-toggle-form', function (e) {
+            e.preventDefault();
+
+            const $form = $(this);
+            const $icon = $form.find('.like-icon');
+            const token = $form.find('input[name="__RequestVerificationToken"]').val();
+
+            $.ajax({
+                url: $form.attr('action'),
+                type: 'POST',
+                headers: { 'RequestVerificationToken': token },
+                data: $form.serialize(),
+                success: res => {
+                    if (!res.isInWishlist) {
+                        $form.closest('.item-card').fadeOut(300, function () {
+                            $(this).remove();
+
+                            if ($('.item-card').length === 0) {
+                                $('#items .container').html('<p>No items in your wishlist!</p>');
+                            }
+                        });
+                    } else {
+                        $icon.removeClass('fa-regular').addClass('fa-solid red-heart');
+                    }
+                },
+                error: xhr => console.error('Wishlist error:', xhr.statusText)
+            });
+        });
+    </script>
+@section js {
+    <script src="~/assets/js/faq/script.js"></script>
+   
+}

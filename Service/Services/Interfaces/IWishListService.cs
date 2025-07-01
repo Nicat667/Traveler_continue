@@ -16,5 +16,6 @@ namespace Service.Services.Interfaces
         Task AddOrRemove(int id);
         Task<bool> IsInWishList(int id);
         Task<bool> ToggleAsync(int id);
+        Task<IEnumerable<HotelsWLVM>> GetAll();
     }
 }

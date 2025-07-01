@@ -17,10 +17,11 @@ namespace Travel.Controllers
             _wishListService = wishListService;
             _userManager = userManager;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-
-            return View();
+            var datas = await _wishListService.GetAll();
+            ViewBag.Wishlist = datas.Select(x => x.Id).ToList();
+            return View(datas);
         }
         [HttpPost]
         public async Task<IActionResult> Add(int id)
@@ -60,35 +61,6 @@ namespace Travel.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Toggle(int id)
         {
-            //bool check = await _wishListService.IsInWishList(id);
-            //if (User.Identity.IsAuthenticated)
-            //{
-            //    if (!check)
-            //    {
-            //        var user = await _userManager.FindByNameAsync(User.Identity.Name);
-            //        WishListVM wishListVM = new WishListVM()
-            //        {
-            //            HotelId = id,
-            //            UserId = user.Id
-            //        };
-
-            //        await _wishListService.Create(wishListVM);
-            //    }
-            //    if(check) 
-            //    {
-            //        var user = await _userManager.FindByNameAsync(User.Identity.Name);
-            //        WishListVM wishListVM = new WishListVM()
-            //        {
-            //            HotelId = id,
-            //            UserId = user.Id
-            //        };
-            //        await _wishListService.Delete(wishListVM);
-            //    }
-            //}
-
-
-            //await _wishListService.AddOrRemove(id);
-            //bool isInWishlist = await _wishListService.IsInWishList(id);
 
             bool isInWishlist = await _wishListService.ToggleAsync(id);
 
