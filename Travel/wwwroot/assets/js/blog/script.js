@@ -30,23 +30,7 @@ document.addEventListener("click", function (e) {
 });
 
 
-let basketIcon = document.querySelector('.basket');
-let basketTab = document.querySelector('.basket-tab');
 
-basketIcon.addEventListener('click', function (e) {
-    e.stopPropagation(); 
-    basketTab.classList.toggle('d-none');
-});
-
-basketTab.addEventListener('click', function (e) {
-    e.stopPropagation();
-});
-
-document.addEventListener('click', function () {
-    if (!basketTab.classList.contains('d-none')) {
-        basketTab.classList.add('d-none');
-    }
-});
 
 
 //let vis = document.querySelector(".visible");

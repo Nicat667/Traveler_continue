@@ -116,6 +116,17 @@ namespace Service.Services
             return result;
         }
 
+        public async Task<int> GetCount()
+        {
+            string items = _contextAccessor.HttpContext.Session.GetString("wishlist");
+            if (items == null)
+            {
+                return 0;
+            }
+            var list = JsonConvert.DeserializeObject<List<int>>(items);
+            return list.Count();
+        }
+
         public async Task<bool> IsInWishList(int id)
         {
             var wishlistJson = _contextAccessor.HttpContext.Session.GetString("wishlist");

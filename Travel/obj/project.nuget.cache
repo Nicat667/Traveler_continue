@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "1xSLoq1dhwc=",
+  "dgSpecHash": "yUDW3Xjak1c=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Nicat\\Desktop\\Traveler_cantinue\\Travel\\Travel\\Travel.csproj",
+  "projectFilePath": "C:\\Users\\Nicat\\Desktop\\tx\\Traveler_continue\\Travel\\Travel.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Nicat\\.nuget\\packages\\azure.core\\1.44.1\\azure.core.1.44.1.nupkg.sha512",
     "C:\\Users\\Nicat\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",

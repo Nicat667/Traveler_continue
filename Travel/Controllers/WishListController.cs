@@ -63,8 +63,15 @@ namespace Travel.Controllers
         {
 
             bool isInWishlist = await _wishListService.ToggleAsync(id);
+            var count = await _wishListService.GetCount();
+            return Ok(new { isInWishlist, count });
+        }
 
-            return Ok(new { isInWishlist });
+        [HttpGet]
+        public async Task<IActionResult> GetCount()
+        {
+            var result = await _wishListService.GetCount();
+            return Json(new { result });
         }
     }
 }

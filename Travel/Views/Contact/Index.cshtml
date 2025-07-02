@@ -63,10 +63,56 @@
                             <i class="fa-solid fa-angle-down curicon"></i>
                             <i class="fa-solid fa-angle-up curicon_ d-none"></i>
                         </div>
+                      
                         <div class="basket">
-                            <div class="circle">
-                                <i class="fa-solid fa-basket-shopping"></i>
-                            </div>
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <a asp-controller="Wishlist" asp-action="Index" style="text-decoration:none; color:black">
+                                    <div class="circle" style="position:relative">
+                                        <i class="fa-regular fa-heart like-iconn" style="font-size:20px !important"></i>
+                                        <div class="count" style="width:17px; height:17px; border-radius:50%; background-color:#05bdeb; display:flex; align-items:center; justify-content:center; position:absolute; top:4px; right: 6px">
+                                            <span id="wishlist-count" style="font-size:11px">0</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            }
+                            else
+                            {
+                                <a style="text-decoration:none; color:black">
+                                    <div class="circle without" style="position:relative">
+                                        <i class="fa-regular fa-heart like-iconn" style="font-size:20px !important"></i>
+                                        <div class="count" style="width:17px; height:17px; border-radius:50%; background-color:#05bdeb; display:flex; align-items:center; justify-content:center; position:absolute; top:4px; right:6px">
+                                            <span id="wishlist-count" style="font-size:11px">0</span>
+                                        </div>
+                                    </div>
+                                </a>
+                                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                                <script>
+
+                                    let item = document.querySelector(".without").addEventListener("click", function(){
+                                        Swal.fire("Login to your account!");
+                                    })
+                                </script>
+                            }
+                            <script>
+                                function updateWishlistCount() {
+                                        fetch('https://localhost:7107/WishList/GetCount')
+                                            .then(response => {
+                                                if (!response.ok) throw new Error('Network response was not ok');
+                                                return response.json();
+                                            })
+                                            .then(data => {
+                                                const countElem = document.getElementById('wishlist-count');
+                                                if (countElem) {
+                                                    countElem.textContent = data.result;
+                                                }
+                                            })
+                                            .catch(error => console.error('Fetch error:', error));
+                                    }
+
+
+                                    updateWishlistCount();
+                            </script>
                         </div>
                         <div class="profile">
                             @if (!User.Identity.IsAuthenticated)
@@ -117,18 +163,7 @@
                 </li>
             </ul>
         </div>
-        <div class="basket-tab d-none">
-
-            <div class="contain">
-                <p class="title">Your Cart</p>
-                <hr>
-                <ul>
-                    <li>
-                        <span>Your cart is empty</span>
-                    </li>
-                </ul>
-            </div>
-        </div>
+      
 
     </section>
 
@@ -136,17 +171,7 @@
         <i class="fa-solid fa-angle-up"></i>
     </div>
 
-    <!-- <section id="map">
-        <div class="cus-container">
-            <div style="width: 100%; height: 600px;">
-                <iframe width="100%" height="100%" frameborder="0" style="border:0" loading="lazy" allowfullscreen
-                    referrerpolicy="no-referrer-when-downgrade"
-                    src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCGEyKiDCVY0ACQfUFlNGsvlW9QJF-JCmc&q=New+York&zoom=10"
-                    title="New York Map" aria-label="New York">
-                </iframe>
-            </div>
-        </div>
-    </section> -->
+
 
 
     <section id="map">
