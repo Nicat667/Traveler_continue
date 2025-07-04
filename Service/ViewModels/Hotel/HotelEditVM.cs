@@ -1,5 +1,6 @@
 ﻿
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Service.ViewModels.HotelImages;
 using System;
 using System.Collections.Generic;
@@ -35,6 +36,7 @@ namespace Service.ViewModels.Hotel
         public bool Restaurant { get; set; }
         [Required]
         public bool SpaSauna { get; set; }
+        [BindNever]
         public IEnumerable<HotelImageVM> ExistImages { get; set; }
     }
 }

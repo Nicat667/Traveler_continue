@@ -140,6 +140,7 @@ namespace Service.Services
                 FitnessCenter = data.FitnessCenter,
                 Parking = data.Parking,
                 Description = data.Description,
+                CityId = data.CityId,
                 Rooms = await _roomService.GetRoomsByHotelId(id)
             };
             List<HotelImageVM> urls = new List<HotelImageVM>();

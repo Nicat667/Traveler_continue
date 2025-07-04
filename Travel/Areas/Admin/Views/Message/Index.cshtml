@@ -1,0 +1,90 @@
+﻿@model IEnumerable<MessageVM>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-…<your-integrity-hash>…" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<div class="pc-container">
+    <div class="pc-content">
+        <table class="table table-striped table-hover mt-2">
+            <thead>
+                <tr>
+                    <th style="border-top: 1px solid rgb(170, 173, 179); border-bottom: 1px solid rgb(170, 173, 179); border-left: none; border-right: none;">#</th>
+                    <th style="border-top: 1px solid rgb(170, 173, 179); border-bottom: 1px solid rgb(170, 173, 179); border-left: none; border-right: none;">Message</th>
+                    <th style="border-top: 1px solid rgb(170, 173, 179); border-bottom: 1px solid rgb(170, 173, 179); border-left: none; border-right: none;">Options</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    int count = 1;
+                }
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td style="border-top: 1px solid rgb(170, 173, 179); border-bottom: 1px solid rgb(170, 173, 179); border-left: none; border-right: none; white-space: normal; word-break: break-word; max-width: 300px;">@count</td>
+                        <td style="border-top: 1px solid rgb(170, 173, 179); border-bottom: 1px solid rgb(170, 173, 179); border-left: none; border-right: none; white-space: normal; word-break: break-word; max-width: 300px;">
+                            <div class="item" style="width: 400px; height: 110px; border: 1px solid grey; border-radius:15px;">
+                                <div class="body" style="display:flex; flex-direction:row; align-items:center; margin-top:20px; margin-left:20px">
+                                    <div class="profile" style="width:50px; height:50px; border-radius:50%;display:flex; align-items:center; justify-content:center; border: 1px solid grey;">
+                                        <i class="fa-solid fa-user" style="font-size:29px"></i>
+                                    </div>
+                                    <div class="Name" style="margin-left:10px; font-size:20px; font-weight:500;">
+                                        <span>@item.Name</span>
+                                    </div>
+                                    <div class="time" style="font-size: 13px; font-weight:400; margin-left: auto; padding-right:20px">
+                                        @if (item.Time.TotalSeconds < 60)
+                                        {
+                                            <span>@($"{item.Time.TotalSeconds:F0} seconds ago")</span>
+                                        }
+                                        else if (item.Time.TotalMinutes < 60)
+                                        {
+                                            <span>@($"{item.Time.TotalMinutes:F0} minutes ago")</span>
+                                        }
+                                        else if (item.Time.TotalHours < 24)
+                                        {
+                                            <span>@($"{item.Time.TotalHours:F0} hours ago")</span>
+                                        }
+                                        else if (item.Time.TotalDays < 7)
+                                        {
+                                            <span>@($"{item.Time.TotalDays:F0} days ago")</span>
+                                        }
+                                        else if (item.Time.TotalDays < 30)
+                                        {
+                                            <span>@($"{Math.Floor(item.Time.TotalDays / 7)} weeks ago")</span>
+                                        }
+                                        else if (item.Time.TotalDays < 365)
+                                        {
+                                            <span>@($"{Math.Floor(item.Time.TotalDays / 30)} months ago")</span>
+                                        }
+                                        else
+                                        {
+                                            <span>@($"{Math.Floor(item.Time.TotalDays / 365)} years ago")</span>
+                                        }
+                                    </div>
+                                </div>
+                                <div class="viewed">
+                                    @if (item.IsRead)
+                                    {
+                                        <p style="font:13px; font-weight:400; text-align:end; padding-right:20px">Viewed</p>
+                                    }
+                                    else
+                                    {
+                                        <p style="font:13px; font-weight:400; text-align:end; padding-right:20px">Not viewed</p>
+                                    }
+                                </div>
+                            </div>
+                        </td>
+     
+                        <td style="border-top: 1px solid rgb(170, 173, 179); border-bottom: 1px solid rgb(170, 173, 179); border-left: none; border-right: none;">
+                            <div class="d-flex gap-1">
+                                <button type="button" class="btn btn-danger deleteMessage" dataId="@item.Id" style="width: 75px;">Delete</button>
+                                <button type="button" class="btn btn-primary detailButton" data-id="@item.Id" style="width: 75px;">Detail</button>
+
+                            </div>
+                        </td>
+
+                    </tr>
+                    count++;
+                }
+            </tbody>
+        </table>
+      
+    </div>
+</div>
+<script src="~/admin/assets/js/message.js"></script>

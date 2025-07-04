@@ -36,6 +36,7 @@ namespace Service
             services.AddScoped<IPaymentService, PaymentService>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<IWishListService, WishListService>();
+            services.AddScoped<IMessageService, MessageService>();
             return services;
         }
     }

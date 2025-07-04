@@ -131,7 +131,7 @@ namespace Travel.Areas.Admin.Controllers
                 Restaurant = existData.Restaurant,
                 AirConditioning = existData.AirConditioning,
                 AirportTransport = existData.AirportTransport,
-                CityId = existData.Id,
+                CityId = existData.CityId,
                 FitnessCenter = existData.FitnessCenter,
                 Parking = existData.Parking,
 
@@ -150,7 +150,13 @@ namespace Travel.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, HotelEditVM model)
         {
-            if(id == null)
+            var cities = await _cityService.GetAll();
+            ViewBag.Cities = cities.Select(m => new SelectListItem
+            {
+                Text = m.Name,
+                Value = m.Id.ToString()
+            }).ToList();
+            if (id == null)
             {
                 return BadRequest();
             }
@@ -159,7 +165,8 @@ namespace Travel.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            if(!ModelState.IsValid)
+            ModelState.Remove("ExistImages");
+            if (!ModelState.IsValid)
             {
                 return View(model);
             }

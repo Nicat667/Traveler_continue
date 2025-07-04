@@ -30,6 +30,7 @@ namespace Repository.Data
         public DbSet<Staff> Staffs { get; set; }
         public DbSet<Setting> Settings { get; set; }
         public DbSet<Email> Emails { get; set; }
+        public DbSet<Message> Messages { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

@@ -349,6 +349,7 @@ wwwroot\admin\assets\js\icon\custom-icon.js
 wwwroot\admin\assets\js\layout-compact.js
 wwwroot\admin\assets\js\layout-horizontal.js
 wwwroot\admin\assets\js\layout-tab.js
+wwwroot\admin\assets\js\message.js
 wwwroot\admin\assets\js\plugins\clipboard.min.js
 wwwroot\admin\assets\js\plugins\feather.min.js
 wwwroot\admin\assets\js\plugins\popper.min.js

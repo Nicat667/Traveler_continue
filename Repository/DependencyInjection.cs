@@ -28,6 +28,7 @@ namespace Repository
             services.AddScoped<IHotelImageRepository, HotelImageRepository>();
             services.AddScoped<IRoomImageRepository, RoomImageRepository>();
             services.AddScoped<IWishListRepository, WishListRepository>();
+            services.AddScoped<IMessageRepository, MessageRepository>();
             return services;
         }
     }

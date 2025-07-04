@@ -17,6 +17,11 @@ namespace Travel.Controllers
         }
         public async Task<IActionResult> AddComment(CommentVM comment)
         {
+            if(comment == null)
+            {
+                return BadRequest();
+            }
+
             await _commentService.AddComment(comment);
             return RedirectToAction("Index", "Hotel");
         }

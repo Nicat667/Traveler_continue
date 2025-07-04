@@ -30,7 +30,7 @@ namespace Repository.Repositories
 
         public async Task<Hotel> GetHotelById(int id)
         {
-            return await _context.Hotels.Include(m => m.Rooms).ThenInclude(mx => mx.RoomImages).Include(m => m.Comments).Include(m => m.HotelImages).FirstOrDefaultAsync(m => m.Id == id);
+            return await _context.Hotels.Include(m => m.Rooms).ThenInclude(mx => mx.RoomImages).Include(m => m.Comments).Include(m => m.HotelImages).Include(m=>m.City).FirstOrDefaultAsync(m => m.Id == id);
         }
 
         public async Task<IEnumerable<Hotel>> Search()

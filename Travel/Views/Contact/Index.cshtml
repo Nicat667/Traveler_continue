@@ -1,6 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Contact";
 }
+@model MessageCreateVM
 @section css {
     <link rel="stylesheet" href="~/assets/css/Contact/style.css">
 }
@@ -10,7 +11,7 @@
 }
 <main>
     <section id="nav"
-             style="background-image: url('assets/images/home/banner-search-form-min.png'); background-size: cover;">
+             style="background-image: url('@Url.Content("~/assets/images/home/banner-search-form-min.png")'); background-size: cover;">
         <div class="navbar">
             <div class="cus-container">
                 <div class="row align-items-center line">
@@ -196,16 +197,15 @@
                         </div>
                         <div class="location">
                             <i class="fa-solid fa-location-dot"></i>
-                            <!-- <p class="addressForMap"> 540 Libety Road, New District, New York</p>   -->
-                            <p class="addressForMap"> 540 Libety Road, New District, New York</p>
+                            <p class="addressForMap"> @datas["address"]</p>
                         </div>
                         <div class="phone">
                             <i class="fa-solid fa-phone"></i>
-                            <p>(000) 999 -656 -888</p>
+                            <p>@datas["phone"]</p>
                         </div>
                         <div class="mail">
                             <i class="fa-solid fa-envelope"></i>
-                            <p>travelerwp@gmail.com</p>
+                            <p>@datas["email"]</p>
                         </div>
                     </div>
                 </div>
@@ -216,19 +216,23 @@
                                 <p>Send a message</p>
                             </div>
 
-                            <form>
+                            <form method="post" asp-controller="Contact" asp-action="AddMessage">
+                                <div asp-validation-summary="All" class="text-danger"></div>
                                 <div class="form-group d-flex gap-3 mb-3 mt-5">
-                                    <input type="text" class="form-control ps-4" placeholder="Enter name">
-                                    <input type="text" class="form-control ps-4" placeholder="Enter phone">
+                                    <input type="text" class="form-control ps-4" placeholder="Enter name" name="Name">
+                                    
+                                    <input type="text" class="form-control ps-4" placeholder="Enter phone" name="Phone">
+                                   
                                 </div>
                                 <div class="form-group mb-3 mt-5">
                                     <input type="email" class="form-control ps-4" id="exampleInputEmail1"
-                                           aria-describedby="emailHelp" placeholder="Enter email">
+                                           aria-describedby="emailHelp" placeholder="Enter email" name="Email">
+       
                                 </div>
                                 <div class="form-group mb-3 mt-5">
-                                    <!-- <input type="text" class="form-control message ps-4"
-                                        aria-describedby="emailHelp" placeholder="Message"> -->
-                                    <textarea class="form-control ps-4" placeholder="Enter your message"></textarea>
+                           
+                                    <textarea class="form-control ps-4" placeholder="Enter your message" name="Text"></textarea>
+
                                 </div>
                                 <button type="submit" class="btn btn-primary  mt-2 button">Submit</button>
                             </form>
@@ -241,8 +245,7 @@
         </div>
     </section>
 </main>
-@* <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCGEyKiDCVY0ACQfUFlNGsvlW9QJF-JCmc"
-        async defer></script> *@
+
 @section js {
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCGEyKiDCVY0ACQfUFlNGsvlW9QJF-JCmc"
             async defer></script>

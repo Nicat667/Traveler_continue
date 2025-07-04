@@ -282,3 +282,4 @@ C:\Users\Nicat\Desktop\tx\Traveler_continue\Travel\obj\Debug\net8.0\refint\Trave
 C:\Users\Nicat\Desktop\tx\Traveler_continue\Travel\obj\Debug\net8.0\Travel.pdb
 C:\Users\Nicat\Desktop\tx\Traveler_continue\Travel\obj\Debug\net8.0\Travel.genruntimeconfig.cache
 C:\Users\Nicat\Desktop\tx\Traveler_continue\Travel\obj\Debug\net8.0\ref\Travel.dll
+C:\Users\Nicat\Desktop\tx\Traveler_continue\Travel\obj\Debug\net8.0\Travel.MvcApplicationPartsAssemblyInfo.cs

@@ -23,6 +23,7 @@ namespace Service.ViewModels.Hotel
         public bool Restaurant { get; set; }
         public bool SpaSauna { get; set; }
         public decimal Rate { get; set; }
+        public int CityId { get; set; }
         public IEnumerable<HotelImageVM> ImageUrls { get; set; }
         public IEnumerable<Comment> Comments { get; set; }
         public IEnumerable<RoomVM> Rooms { get; set; }
