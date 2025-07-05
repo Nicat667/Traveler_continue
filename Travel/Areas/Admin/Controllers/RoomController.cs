@@ -49,6 +49,7 @@ namespace Travel.Areas.Admin.Controllers
                 Text = rt.ToString(),
                 Value = ((int)rt).ToString()
             }).ToList();
+            ViewBag.HotelId = model.HotelId;
             if (model.Images == null || model.Images.Count() < 5) 
             {
                 ModelState.AddModelError("Images", "Please upload at least 5 images.");
