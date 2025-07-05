@@ -14,5 +14,6 @@ namespace Service.Services.Interfaces
         Task<MessageDetailVM> GetDetail(int id);
         Task Delete(int id);
         Task Update(int id);
+        Task Answer(int id, AnswerVM answer);
     }
 }

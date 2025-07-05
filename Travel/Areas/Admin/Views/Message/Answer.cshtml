@@ -1,0 +1,17 @@
+﻿@model AnswerVM
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<div class="pc-container">
+    <div class="pc-content">
+        <a asp-action="Index" class="btn btn-success mt-1" style="width: 75px">Return</a>
+        <form method="post" asp-action="Answer">
+            <div class="form-group">
+                <label for="exampleInputEmail1">Your message</label>
+                <input class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Message" asp-for="Answer">
+                <span class="text-danger" asp-validation-for="Answer"></span>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+</div>
+
+

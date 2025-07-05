@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Service.Services.Interfaces;
+using Service.ViewModels.Messages;
 using System.Threading.Tasks;
 
 namespace Travel.Areas.Admin.Controllers
@@ -63,6 +64,30 @@ namespace Travel.Areas.Admin.Controllers
             }
             await _messageService.Update(id);
             return Ok();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Answer(int id)
+        {
+            await _messageService.Update(id);
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Answer(int id, AnswerVM model)
+        {
+            if(id == null)
+            {
+                return BadRequest();
+            }
+            var data = await _messageService.GetDetail(id);
+            if(data == null)
+            {
+                return NotFound();
+            }
+            await _messageService.Answer(id, model);
+            return RedirectToAction("Index");
         }
     }
 }

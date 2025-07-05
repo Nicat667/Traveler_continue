@@ -75,7 +75,7 @@
                             <div class="d-flex gap-1">
                                 <button type="button" class="btn btn-danger deleteMessage" dataId="@item.Id" style="width: 75px;">Delete</button>
                                 <button type="button" class="btn btn-primary detailButton" data-id="@item.Id" style="width: 75px;">Detail</button>
-
+                                <a asp-action="Answer" asp-route-id="@item.Id" class="btn btn-success">Answer</a>
                             </div>
                         </td>
 

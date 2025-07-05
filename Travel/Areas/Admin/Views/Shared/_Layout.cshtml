@@ -3,6 +3,11 @@
     var datas = await _settingService.GetSettings();
     var result = datas.FirstOrDefault(m => m.Key == "logo");
 }
+@inject IMessageService _messageService
+@{
+    var messages = await _messageService.GetAll();
+    var count = messages.Where(m=>m.IsRead==false).Count();
+}
 <!doctype html>
 <html lang="en" data-pc-preset="preset-1" data-pc-sidebar-caption="true" data-pc-direction="ltr" dir="ltr" data-pc-theme="light">
 <!-- [Head] start -->
@@ -232,7 +237,10 @@
                         <a class="pc-head-link dropdown-toggle me-0" data-pc-toggle="dropdown" href="#" role="button"
                            aria-haspopup="false" aria-expanded="false">
                             <i data-feather="bell"></i>
-                            <span class="badge bg-success-500 text-white rounded-full z-10 absolute right-0 top-0">3</span>
+                            @if (count > 0)
+                            {
+                                <span class="badge bg-success-500 text-white rounded-full z-10 absolute right-0 top-0">@count</span>
+                            }
                         </a>
                         
                     </li>

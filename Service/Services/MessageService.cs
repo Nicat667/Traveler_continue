@@ -2,21 +2,25 @@
 using Repository.Repositories.Interfaces;
 using Service.Services.Interfaces;
 using Service.ViewModels.Messages;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Service.Services
 {
     public class MessageService : IMessageService
     {
         private readonly IMessageRepository _messageRepository;
-        public MessageService(IMessageRepository messageRepository)
+        private readonly IEmailService _emailService;
+        public MessageService(IMessageRepository messageRepository, IEmailService emailService)
         {
             _messageRepository = messageRepository;
+            _emailService = emailService;
         }
+
+        public async Task Answer(int id, AnswerVM answer)
+        {
+            var data = await _messageRepository.GetByIdAsync(id);
+            _emailService.Send(data.Email, "Support", answer.Answer);
+        }
+
         public async Task Create(MessageCreateVM model)
         {
             await _messageRepository.CreateAsync(new Message
