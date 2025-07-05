@@ -178,8 +178,8 @@ namespace Travel.Controllers
             AppUser user = await _userManager.FindByEmailAsync(model.Email);
             if (user == null)
             {
-                ModelState.AddModelError("", "Email was not found!");
-                return View();
+                ModelState.AddModelError("Email", "Email was not found!");
+                return View(model);
             }
             string token = await _userManager.GeneratePasswordResetTokenAsync(user);
             string url = Url.Action("ChangePassWord", "Account", new { userId = user.Id, token }, Request.Scheme, Request.Host.ToString());
